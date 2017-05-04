@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 
 class MainAsm {
 public:
@@ -17,6 +18,10 @@ public:
 	virtual ~MainAsm();
 	void handleArguments(const std::vector<std::string>* args);
 	void handleSource(void);
+private:
+	std::string buffer;
+	std::ofstream listingFile;
+	std::ofstream objectFile;
 };
 
 #endif /* MAINASM_H_ */

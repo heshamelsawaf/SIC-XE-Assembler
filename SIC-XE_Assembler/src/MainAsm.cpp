@@ -6,6 +6,9 @@
  */
 
 #include "MainAsm.h"
+#include "Util.h"
+#include "Logger.h"
+#include <iostream>
 
 MainAsm::MainAsm() {
 	// TODO Auto-generated constructor stub
@@ -17,6 +20,13 @@ MainAsm::~MainAsm() {
 }
 
 void MainAsm::handleArguments(const std::vector<std::string>* args) {
-	std::string fileName = (*args)[args->size() - 1];
-
+	std::string file = (*args)[args->size() - 1];
+	std::string fileName = Util::getFileName(&file);
+	this->buffer = Util::readFile(&file);
+	this->listingFile.open(fileName + ".lst");
+	if (this->listingFile.fail())
+		Logger::err("Error creating listing file!");
+	this->objectFile.open(fileName + ".obj");
+	if (this->objectFile.fail())
+		Logger::err("Error creating object file!");
 }

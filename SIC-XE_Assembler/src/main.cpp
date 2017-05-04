@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-#include "src/MainAsm.h"
+#include "MainAsm.h"
 
 int main(int argc, const char* argv[]) {
 	if (argc > 1) {
