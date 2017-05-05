@@ -8,6 +8,7 @@
 #include "MainAsm.h"
 #include "Util.h"
 #include "Logger.h"
+#include "asm/Assembler.h"
 #include <iostream>
 
 MainAsm::MainAsm() {
@@ -29,4 +30,8 @@ void MainAsm::handleArguments(const std::vector<std::string>* args) {
 	this->objectFile.open(fileName + ".obj");
 	if (this->objectFile.fail())
 		Logger::err("Error creating object file!");
+}
+
+void MainAsm::handleSource() {
+	Assembler assembler();
 }
