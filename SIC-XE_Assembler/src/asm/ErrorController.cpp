@@ -13,7 +13,7 @@ ErrorController::ErrorController() {
 }
 
 ErrorController::~ErrorController() {
-	// TODO Auto-generated destructor stub
+	this->clear();
 }
 
 void ErrorController::add(Error *error) {
@@ -21,6 +21,7 @@ void ErrorController::add(Error *error) {
 }
 
 void ErrorController::clear() {
+	this->destroyPointers();
 	this->errors.clear();
 	this->last = 0;
 }
@@ -35,5 +36,10 @@ void ErrorController::printByRow(int row) const {
 	for (int i = 0; i < this->count(); i++)
 		if (errors[i]->getErrorLocation().getRow() == row)
 			Logger::err(errors[i]->getError());
+}
+
+void ErrorController::destroyPointers() {
+	for (int i = 0; i < this->count(); i++)
+		delete errors[i];
 }
 

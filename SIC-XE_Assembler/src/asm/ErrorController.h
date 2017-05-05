@@ -23,6 +23,7 @@ public:
 private:
 	std::vector<Error *> errors;
 	int last;
+	void destroyPointers();
 };
 
 #endif /* SRC_ASM_ERRORCONTROLLER_H_ */
