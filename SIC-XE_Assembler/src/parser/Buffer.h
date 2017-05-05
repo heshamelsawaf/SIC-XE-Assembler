@@ -10,7 +10,7 @@
 
 #include <string>
 #include "../asm/Location.h"
-#include "../asm/ErrorController.h"
+#include "../asm/Error.h"
 
 class Buffer {
 public:
@@ -23,7 +23,7 @@ public:
 	Location *getLocation() const;
 	bool isReady() const;
 	char getPeekCharacter() const;
-	void advancePointer(char character, ErrorController &errorController);
+	void advancePointer(char character, Error *error);
 	bool advancePointerIf(char character);
 	bool advancePointerIf(std::string str);
 	void advancePointerUntil(char delimiter);

@@ -95,12 +95,14 @@ int Buffer::advancePointer(int count) {
 	return temp;
 }
 
-void Buffer::advancePointer(char character, ErrorController &errorController) {
-	if (this->advancePointerIf(character))
+void Buffer::advancePointer(char character, Error *error) {
+	if (this->advancePointerIf(character)) {
+		error = NULL;
 		return;
+	}
 	std::string err = "Expected ";
 	err.push_back(character);
-	errorController.add(new Error(this->getLocation(), err + "!"));
+	error = new Error(this->getLocation(), err + "!");
 }
 
 bool Buffer::advancePointerIf(char character) {
