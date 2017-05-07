@@ -7,15 +7,22 @@
 
 #include "Mnemonic.h"
 
-Mnemonic::Mnemonic(const std::string name, const int opCode) :
-		name(name), opCode(opCode) {
-
+Mnemonic::Mnemonic(std::string name, int opCode, int type) :
+		name(name), opCode(opCode), type(type) {
 }
 
 Mnemonic::~Mnemonic() {
 	// TODO Auto-generated destructor stub
 }
 
-const std::string Mnemonic::getName() const {
+std::string Mnemonic::getName() const {
 	return this->name;
+}
+
+int Mnemonic::getType() const {
+	return this->type;
+}
+
+int Mnemonic::getOpCode() const {
+	return this->opCode;
 }

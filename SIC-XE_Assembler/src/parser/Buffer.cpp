@@ -10,8 +10,8 @@
 Buffer::Buffer() {
 	this->buffer = "";
 	this->position = 0;
-	this->row = 0;
-	this->column = 0;
+	this->row = 1;
+	this->column = 1;
 	this->previousCharacter = '\0';
 
 }
@@ -23,8 +23,8 @@ Buffer::~Buffer() {
 void Buffer::init(const std::string buffer) {
 	this->buffer = buffer;
 	this->position = 0;
-	this->row = 0;
-	this->column = 0;
+	this->row = 1;
+	this->column = 1;
 }
 
 int Buffer::getPosition() const {
@@ -42,7 +42,7 @@ Location *Buffer::getLocation() const {
 }
 
 std::string Buffer::subString(int start, int end) const {
-	return this->buffer.substr(start, end);
+	return this->buffer.substr(start, end - start);
 }
 
 std::string Buffer::subString(int start) const {

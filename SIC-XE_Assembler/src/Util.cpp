@@ -24,7 +24,7 @@ std::string Util::readFile(std::ifstream* file) {
 	}
 	std::string toBeReturned = "", line;
 	while (std::getline(*file, line)) {
-		toBeReturned += line;
+		toBeReturned += line + "\n";
 	}
 	return toBeReturned;
 }

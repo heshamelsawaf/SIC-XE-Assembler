@@ -10,15 +10,16 @@
 
 class Location {
 public:
-	Location(const int position, const int row, const int column);
+	Location(int position, int row, int column);
 	virtual ~Location();
 	int getPositon() const;
 	int getRow() const;
 	int getColumn() const;
+	Location *clone() const;
 private:
-	const int position;
-	const int row;
-	const int column;
+	int position;
+	int row;
+	int column;
 };
 
 #endif /* SRC_ASM_LOCATION_H_ */

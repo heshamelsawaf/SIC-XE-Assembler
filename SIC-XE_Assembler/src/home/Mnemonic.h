@@ -12,12 +12,15 @@
 
 class Mnemonic {
 public:
-	Mnemonic(const std::string name, const int opCode);
+	Mnemonic(std::string name, int opCode, int type);
 	virtual ~Mnemonic();
-	const std::string getName(void) const;
+	std::string getName() const;
+	int getType() const;
+	int getOpCode() const;
 private:
-	const std::string name;
-	const int opCode;
+	std::string name;
+	int type;
+	int opCode;
 };
 
 #endif /* SRC_HOME_MNEMONIC_H_ */

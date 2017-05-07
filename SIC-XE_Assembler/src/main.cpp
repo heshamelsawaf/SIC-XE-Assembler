@@ -15,6 +15,7 @@ int main(int argc, const char* argv[]) {
 		MainAsm m;
 		std::vector<std::string> args(argv + 1, argv + argc);
 		m.handleArguments(&args);
+		m.handleSource();
 	}
 	return 0;
 }

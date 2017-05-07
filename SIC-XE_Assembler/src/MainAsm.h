@@ -21,6 +21,7 @@ public:
 private:
 	std::string buffer;
 	std::ofstream listingFile;
+	std::ofstream mapFile;
 	std::ofstream objectFile;
 };
 

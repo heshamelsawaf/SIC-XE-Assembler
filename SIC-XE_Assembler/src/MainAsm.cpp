@@ -27,11 +27,23 @@ void MainAsm::handleArguments(const std::vector<std::string>* args) {
 	this->listingFile.open(fileName + ".lst");
 	if (this->listingFile.fail())
 		Logger::err("Error creating listing file!");
+	this->mapFile.open(fileName + ".map");
+	if (this->mapFile.fail())
+		Logger::err("Error creating map file!");
 	this->objectFile.open(fileName + ".obj");
 	if (this->objectFile.fail())
 		Logger::err("Error creating object file!");
 }
 
 void MainAsm::handleSource() {
-	Assembler assembler();
+	Assembler assembler;
+	ErrorController *errorCatcher = assembler.getErrorController();
+	Prog *program = assembler.assemble(this->buffer);
+	if (errorCatcher->count() > 0) {
+		//new WriteErrors(program, errorCatcher).visitCommands();
+		errorCatcher->print();
+		return;
+	}
+	//
+
 }

@@ -7,7 +7,7 @@
 
 #include "Location.h"
 
-Location::Location(const int position, const int row, const int column) :
+Location::Location(int position, int row, int column) :
 		position(position), row(row), column(column) {
 	// TODO Auto-generated constructor stub
 
@@ -27,4 +27,8 @@ int Location::getRow() const {
 
 int Location::getColumn() const {
 	return this->column;
+}
+
+Location *Location::clone() const {
+	return new Location(this->position, this->row, this->column);
 }
