@@ -7,8 +7,9 @@
 
 #include "START.h"
 
-START::START(Location *location, std::string label, Mnemonic *mnemonic) :
-		DirectivesBase(location, label, mnemonic) {
+START::START(Location *location, std::string label, Mnemonic *mnemonic,
+		Expression *expression) :
+		DirectivesBase(location, label, mnemonic, expression) {
 
 }
 

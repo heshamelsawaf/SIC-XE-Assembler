@@ -35,7 +35,7 @@ void Command::enter(Prog &program, Error *error) {
 
 void Command::append(Prog &program, Error *error) {
 	this->enter(program, error);
-	program.append(*this);
+	program.append(this);
 	this->leave(program, error);
 }
 

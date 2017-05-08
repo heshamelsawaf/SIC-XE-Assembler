@@ -8,9 +8,10 @@
 #include "DirectivesBase.h"
 
 DirectivesBase::DirectivesBase(Location *location, std::string label,
-		Mnemonic *mnemonic) :
+		Mnemonic *mnemonic, Expression *expression) :
 		Directive(location, label, mnemonic) {
 	this->value = 0;
+	this->expression = expression;
 }
 
 DirectivesBase::~DirectivesBase() {
@@ -18,7 +19,7 @@ DirectivesBase::~DirectivesBase() {
 }
 
 std::string DirectivesBase::printOperand() const {
-	return "";
+	return (expression == NULL) ? "" : expression->print();
 }
 
 int DirectivesBase::getValue() const {
@@ -27,4 +28,8 @@ int DirectivesBase::getValue() const {
 
 void DirectivesBase::resolve(Prog &program) {
 	this->value = -1;
+}
+
+Expression &DirectivesBase::getExpression() const {
+	return *(this->expression);
 }

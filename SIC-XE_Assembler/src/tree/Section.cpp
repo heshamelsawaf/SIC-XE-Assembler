@@ -13,9 +13,9 @@ Section::Section(std::string sectionName) :
 	this->sectionName = sectionName;
 	this->symbols = new Symbols();
 	this->literals = new Literals();
-	this->reset();
 	this->sectionSize = 0;
 	this->currentBlock = NULL;
+	this->reset();
 }
 
 Section::~Section() {

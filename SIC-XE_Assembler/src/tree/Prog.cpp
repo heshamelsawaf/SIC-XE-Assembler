@@ -104,11 +104,11 @@ void Prog::switchDefault() {
 	this->cuurentSection->switchBlock("");
 }
 
-void Prog::append(Command &command) {
+void Prog::append(Command *command) {
 	this->commands.push_back(command);         // add command to the program
 	this->getCurrentBlock().append(command); // add command to the current block
-	if (command.getLabel().length() > this->maxLabelLength)
-		this->maxLabelLength = command.getLabel().length();
+	if (command->getLabel().length() > this->maxLabelLength)
+		this->maxLabelLength = command->getLabel().length();
 }
 
 void Prog::enter(Prog &program, Error *error) {

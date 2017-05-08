@@ -12,7 +12,8 @@
 
 class START: public DirectivesBase {
 public:
-	START(Location *location, std::string label, Mnemonic *mnemonic);
+	START(Location *location, std::string label, Mnemonic *mnemonic,
+			Expression *expression);
 	virtual ~START();
 	void append(Prog &program, Error *error);
 };

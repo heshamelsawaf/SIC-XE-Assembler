@@ -8,8 +8,9 @@
 #include "END.h"
 #include "../Prog.h"
 
-END::END(Location *location, std::string label, Mnemonic *mnemonic) :
-		DirectivesBase(location, label, mnemonic) {
+END::END(Location *location, std::string label, Mnemonic *mnemonic,
+		Expression *expression) :
+		DirectivesBase(location, label, mnemonic, expression) {
 
 }
 

@@ -35,7 +35,7 @@ public:
 	void flushAllLiterals();
 	void switchSection(std::string sectionName);
 	void switchDefault();
-	void append(Command &command);
+	void append(Command *command);
 	void enter(Prog &program, Error *error);
 
 private:
@@ -43,7 +43,7 @@ private:
 	int startAddress;
 	int addrsOfFirstInstruction;
 	int maxLabelLength;
-	std::vector<Command> commands;
+	std::vector<Command *> commands;
 	std::vector<Section *> sections;
 	Section *cuurentSection;
 	Section *findSection(std::string sectionName);

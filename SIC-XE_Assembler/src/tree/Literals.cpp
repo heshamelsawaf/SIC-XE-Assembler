@@ -51,5 +51,5 @@ StorageData *Literals::find(StorageData &literal) {
 
 void Literals::flush(Prog &program) {
 	while (lastPoped < storage.size())
-		program.append(*(storage[lastPoped++]));
+		program.append((storage[lastPoped++]));
 }

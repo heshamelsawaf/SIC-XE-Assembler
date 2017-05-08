@@ -19,7 +19,7 @@ public:
 	virtual ~Block();
 	std::string getBlockName() const;
 	bool isDefaultBlock() const;
-	void append(Command &command);
+	void append(Command *command);
 	int getInstructionCounter() const;
 	int getDirectiveCounter() const;
 	int getStorageCounter() const;
@@ -36,7 +36,7 @@ public:
 
 private:
 	std::string blockName;
-	std::vector<Command> commands;
+	std::vector<Command *> commands;
 	int instructionCounter;
 	int directiveCounter;
 	int storageCounter;

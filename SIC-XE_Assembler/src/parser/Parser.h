@@ -12,6 +12,7 @@
 #include "../asm/ErrorController.h"
 #include "../home/Mnemonics.h"
 #include "OperandParser.h"
+#include "ExpressionParser.h"
 #include "../asm/Error.h"
 #include <string>
 
@@ -22,6 +23,7 @@ public:
 	void checkWhitespace(std::string fmt, Error *error);
 	Command *parseIfCommand(Error *error);
 	OperandParser &getOperandParser() const;
+	ExpressionParser &getExpressionParser() const;
 	Mnemonics &getMnemonics() const;
 	Prog &getProgram() const;
 	Prog *parseProgram();
@@ -30,6 +32,7 @@ private:
 	OperandParser *operandParser;
 	Mnemonics *mnemonics;
 	ErrorController *errorController;
+	ExpressionParser *expressionParser;
 	Prog *program;
 };
 

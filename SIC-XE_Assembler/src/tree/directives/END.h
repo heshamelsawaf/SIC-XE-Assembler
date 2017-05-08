@@ -12,7 +12,8 @@
 
 class END: public DirectivesBase {
 public:
-	END(Location *location, std::string label, Mnemonic *mnemonic);
+	END(Location *location, std::string label, Mnemonic *mnemonic,
+			Expression *expression);
 	virtual ~END();
 	void enter(Prog &program, Error *error);
 	void append(Prog &program, Error *error);

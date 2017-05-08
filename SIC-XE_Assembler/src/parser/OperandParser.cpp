@@ -149,13 +149,29 @@ Command *OperandParser::parseF3Extended(Location *location, std::string label,
 			operand, symbol);
 }
 
+Expression *OperandParser::parseExpression(Error *error) {
+	error = NULL;
+	Expression *expr = parser->getExpressionParser().parseExpression(error);
+	if (error != NULL)
+		return NULL;
+	if (expr == NULL) {
+		error = new Error(parser->getLocation(),
+				"Expression expected '"
+						+ std::to_string(parser->getPeekCharacter()) + "'!");
+		return NULL;
+	}
+	return expr;
+}
+
 Command *OperandParser::parseDe(Location *location, std::string label,
 		Mnemonic *mnemonic, Error *error) {
+	error = NULL;
+	Expression *expression = this->parseExpression(error);
 	switch (mnemonic->getOpCode()) {
 	case Opcode::START:
-		return new START(location, label, mnemonic);
+		return new START(location, label, mnemonic, expression);
 	case Opcode::END:
-		return new END(location, label, mnemonic);
+		return new END(location, label, mnemonic, expression);
 	}
 	return NULL;
 }

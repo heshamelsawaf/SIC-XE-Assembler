@@ -6,13 +6,26 @@
  */
 
 #include "Expression.h"
+#include "../Prog.h"
 
-Expression::Expression() {
-	// TODO Auto-generated constructor stub
-
+Expression::Expression(std::string name, Location *location) {
+	this->name = name;
+	this->location = location;
 }
 
 Expression::~Expression() {
-	// TODO Auto-generated destructor stub
+	delete this->location;
+	this->location = NULL;
 }
 
+std::string Expression::print() const {
+	return "";
+}
+
+Expression *Expression::getParsedExpression() {
+	return this;
+}
+
+int Expression::evaluate(Prog &program, Error *error) {
+	return 0;
+}

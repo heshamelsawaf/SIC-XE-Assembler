@@ -41,7 +41,7 @@ void LiteralInstruction::append(Prog &program, Error *error) {
 	else
 		program.getCurrentSection().getLiterals().append(this->literal);
 	this->command->setSymbol(this->literal->getLabel());
-	program.append(*(this));       // add command to the current block
+	program.append(this);       // add command to the current block
 	error = NULL;
 	this->leave(program, error);
 }

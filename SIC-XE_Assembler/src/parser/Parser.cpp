@@ -11,8 +11,9 @@
 
 Parser::Parser(Mnemonics *mnemonics, ErrorController *errorController) {
 	this->mnemonics = mnemonics;
-	this->operandParser = operandParser;
+	this->operandParser = new OperandParser(this);
 	this->errorController = errorController;
+	this->expressionParser = new ExpressionParser(this);
 	this->program = NULL;
 }
 
@@ -39,6 +40,10 @@ Prog &Parser::getProgram() const {
 	return *(this->program);
 }
 
+ExpressionParser &Parser::getExpressionParser() const {
+	return *(this->expressionParser);
+}
+
 Command *Parser::parseIfCommand(Error *error) {
 	Location *loc = this->getLocation();
 	std::string label = this->readIfLabel();
@@ -57,7 +62,7 @@ Command *Parser::parseIfCommand(Error *error) {
 		loc = this->getLocation();
 	}
 	std::string name = this->readIfMnemonic();
-	if (!(label.compare(""))) {
+	if (!(name.compare(""))) {
 		if (!(label.compare(""))) {
 			delete loc;
 			loc = NULL;

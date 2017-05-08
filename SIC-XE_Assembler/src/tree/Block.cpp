@@ -32,13 +32,13 @@ bool Block::isDefaultBlock() const {
 	return (this->blockName.compare("") ? false : true);
 }
 
-void Block::append(Command &command) {
+void Block::append(Command *command) {
 	this->commands.push_back(command);
-	if (command.getType().compare("Instruction"))
+	if (!(command->getType().compare("Instruction")))
 		instructionCounter++;
-	if (command.getType().compare("Directive"))
+	if (!(command->getType().compare("Directive")))
 		directiveCounter++;
-	if (command.getType().compare("Storage"))
+	if (!(command->getType().compare("Storage")))
 		storageCounter++;
 }
 

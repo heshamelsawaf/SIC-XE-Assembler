@@ -14,6 +14,7 @@
 #include "../asm/Location.h"
 #include "../home/Mnemonic.h"
 #include "../asm/Error.h"
+#include "../tree/expression/Expression.h"
 #include <string>
 
 class OperandParser {
@@ -41,6 +42,7 @@ private:
 			Error *error);
 	Command *parseSd_(Location *location, std::string label, Mnemonic *mnemonic,
 			Error *error);
+	Expression *parseExpression(Error *error);
 };
 
 #endif /* SRC_PARSER_OPERANDPARSER_H_ */
