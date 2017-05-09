@@ -45,5 +45,6 @@ void MainAsm::handleSource() {
 		return;
 	}
 	//
+	assembler.generateListing(*program, listingFile);
 
 }

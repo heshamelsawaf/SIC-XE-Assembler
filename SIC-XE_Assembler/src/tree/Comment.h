@@ -19,7 +19,7 @@ public:
 	std::string print() const;
 	std::string printOperand() const;
 	int getCommandSize() const;
-	void burnObjectCode(unsigned char *data, int location, int length) const;
+	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
 };
 
 #endif /* SRC_TREE_COMMENT_H_ */

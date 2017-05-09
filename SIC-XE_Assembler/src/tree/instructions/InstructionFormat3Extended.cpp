@@ -39,11 +39,10 @@ int InstructionFormat3Extended::getCommandSize() const {
 	return 3;
 }
 
-void InstructionFormat3Extended::burnObjectCode(unsigned char *data,
-		int location, int length) const {
-	data[location] = this->flags->combineWithOpCode(
-			this->mnemonic->getOpCode());
-	data[location + 1] = (unsigned char) (this->flags->get_X()
+void InstructionFormat3Extended::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
+	vec[location] = this->flags->combineWithOpCode(this->mnemonic->getOpCode());
+	vec[location + 1] = (unsigned char) (this->flags->get_X()
 			| (resolvedValue >> 8) & 0x7F);
-	data[location + 2] = (unsigned char) (resolvedValue & 0xFF);
+	vec[location + 2] = (unsigned char) (resolvedValue & 0xFF);
 }

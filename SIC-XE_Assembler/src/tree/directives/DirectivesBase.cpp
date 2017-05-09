@@ -26,8 +26,8 @@ int DirectivesBase::getValue() const {
 	return this->value;
 }
 
-void DirectivesBase::resolve(Prog &program) {
-	this->value = -1;
+void DirectivesBase::resolve(Prog &program, Error** error) {
+	value = expression == NULL ? -1 : expression->evaluate(program, error);
 }
 
 Expression &DirectivesBase::getExpression() const {

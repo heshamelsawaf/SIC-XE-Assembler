@@ -17,6 +17,7 @@ class Block: public Node {
 public:
 	Block(std::string blockName);
 	virtual ~Block();
+	std::string print() const;
 	std::string getBlockName() const;
 	bool isDefaultBlock() const;
 	void append(Command *command);

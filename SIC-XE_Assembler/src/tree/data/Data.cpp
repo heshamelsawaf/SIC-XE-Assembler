@@ -11,9 +11,7 @@
 
 Data::Data(int opcode) {
 	this->opCode = opcode;
-	this->data = NULL;
 	this->next = NULL;
-	this->dataLength = 0;
 }
 
 Data::~Data() {
@@ -38,9 +36,9 @@ void Data::parse(Parser &parser, bool allowList, Error** error) {
 bool Data::operator ==(const Data &dta) const {
 	if (opCode != dta.getOpCode())
 		return false;  // distinguish BYTE,WORD,FLOaT
-	if (this->getDataLength() != dta.getDataLength())
+	if (this->data.size() != dta.getData().size())
 		return false;
-	for (int i = 0; i < dataLength; i++)
+	for (int i = 0; i < data.size(); i++)
 		if (data[i] != dta.getData()[i])
 			return false;
 	if (next == NULL && dta.getNext() == NULL)
@@ -53,9 +51,9 @@ bool Data::operator ==(const Data &dta) const {
 int Data::sizes() const {
 	switch (this->opCode) {
 	case Opcode::BYTE:
-		return dataLength;
+		return data.size();
 	case Opcode::WORD:
-		return (dataLength + 2) / 3 * 3;
+		return (data.size() + 2) / 3 * 3;
 	}
 	return 0;
 }
@@ -71,24 +69,21 @@ int Data::getOpCode() const {
 	return this->opCode;
 }
 
-int Data::getDataLength() const {
-	return this->dataLength;
-}
-
-unsigned char *Data::getData() const {
-	return this->data;
+const std::vector<unsigned char>& Data::getData() const {
+	return data;
 }
 
 Data *Data::getNext() const {
 	return this->next;
 }
 
-void Data::burnObjectCode(unsigned char *dta, int location, int length) const {
-	for (int i = 0; i < this->dataLength; i++)
-		dta[location + i] = data[i];
+void Data::burnObjectCode(std::vector<unsigned char>& vec, int location) const {
+	int i;
+	for (i = 0; i < data.size(); i++)
+		vec[location + i] = data[i];
 	int s = this->sizes();
-	for (int i = length; i < s; i++)
-		dta[i] = 0;
+	for (; i < s; i++)
+		vec[i] = 0;
 	if (this->next != NULL)
-		this->next->burnObjectCode(dta, location + s, length);
+		this->next->burnObjectCode(vec, location + s);
 }

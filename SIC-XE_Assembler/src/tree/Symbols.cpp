@@ -57,10 +57,12 @@ bool Symbols::isEvaluated(std::string symbolName) {
 
 void Symbols::define(Symbol *symbol, Error** error) {
 	if (!(symbol->getSymbolName().compare(""))) {
+		delete symbol;
 		*error = NULL;
 		return;
 	}
 	if (this->isDefined(symbol->getSymbolName())) {
+		delete symbol;
 		std::string errMsg = "Duplicate symbol '" + symbol->getSymbolName()
 				+ "'!";
 		*error = new Error(symbol->getSymbolLocation(), errMsg);

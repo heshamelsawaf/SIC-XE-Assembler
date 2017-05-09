@@ -22,7 +22,7 @@ public:
 	void append(Prog &program, Error** error);
 	std::string printOperand() const;
 	int getCommandSize() const;
-	void burnObjectCode(unsigned char *data, int location, int length) const;
+	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
 
 protected:
 	StorageData *literal;

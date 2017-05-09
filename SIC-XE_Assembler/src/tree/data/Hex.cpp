@@ -19,8 +19,7 @@ Hex::~Hex() {
 
 std::string Hex::print() const {
 	std::string buffer = "X'"
-			+ Conversion::bytesToHex(this->data, 0, this->dataLength,
-					this->dataLength);
+			+ Conversion::bytesToHex(this->data, 0, data.size());
 	buffer.push_back('\'');
 	return buffer + Data::print();
 }
@@ -39,8 +38,7 @@ void Hex::parse(Parser &parser, bool allowList, Error** error) {
 		*error = new Error(parser.getLocation(), errMsg);
 		return;
 	}
-	Conversion::hexToBytes(temp, this->data);
-	this->dataLength = temp.length() / 2;
+	data = Conversion::hexToBytes(temp);
 	if (allowList) {
 		*error = NULL;
 		Data::parse(parser, allowList, error);

@@ -7,12 +7,16 @@
 
 #include "Assembler.h"
 
+#include "../Conversion.h"
 #include "../tree/Block.h"
-#include "../tree/directives/START.h"
+#include "../tree/Comment.h"
 #include "../tree/directives/END.h"
+#include "../tree/directives/START.h"
+#include "../tree/expression/Expression.h"
 #include "../tree/instructions/InstructionFormat3Extended.h"
 #include "../tree/storage/RES.h"
 #include "../tree/Section.h"
+#include "../tree/Symbols.h"
 #include "Error.h"
 #include "Location.h"
 
@@ -48,7 +52,19 @@ Prog *Assembler::assemble(std::string input) {
 			block->reset();
 	}
 	this->resolveAbsolute(*program);
+	program->switchDefault();
+	for (Section *section : program->getSections()) {
+		section->reset();
+		for (Block *block : section->getBlocks())
+			block->reset();
+	}
 	this->resolveBlocks(*program);
+	program->switchDefault();
+	for (Section *section : program->getSections()) {
+		section->reset();
+		for (Block *block : section->getBlocks())
+			block->reset();
+	}
 	this->resolveSymbols(*program);
 	return program;
 }
@@ -159,7 +175,10 @@ void Assembler::visitSTART(Prog &program, START &d, Error** error) {
 		*error = new Error(d.getLocation(), "Program name too long");
 		return;
 	}
-	d.resolve(program);
+	*error = NULL;
+	d.resolve(program, error);
+	if (*error != NULL)
+		return;
 	program.setName(d.getLabel());
 	program.setStartAddress(d.getValue());
 }
@@ -189,8 +208,60 @@ void Assembler::resolveSymbols(Prog& program) {
 		}
 	}
 }
-void Assembler::generateListing(Prog &program, std::ofstream oBuffer) {
-
+void Assembler::generateListing(Prog &program, std::ofstream& oBuffer) {
+	program.switchDefault();
+	for (Section *section : program.getSections()) {
+		section->reset();
+		for (Block *block : section->getBlocks())
+			block->reset();
+	}
+	for (Command *command : program.getCommands()) {
+		Error *error = NULL;
+		command->enter(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+		if (Comment *t = dynamic_cast<Comment*>(command))
+			oBuffer << "                  " << t->getComment() << "\n";
+		else if (Command *t = dynamic_cast<Command*>(command)) {
+			int labelLength = program.getMaxLabelLength();
+			int nameLength = 6;
+			std::string n = t->printMnemonicName();
+			if (n.length() > 0 && (n[0] == '=' || n[0] == '+'))
+				labelLength--, nameLength++;
+			// location address
+			oBuffer << Conversion::addressToHex(program.getLocationCounter())
+					<< "  ";
+//			// raw code
+			std::vector<unsigned char> vec = command->burnObjectCode();
+			oBuffer << Conversion::bytesToHexNice(vec, 4);
+//			// label
+			char buffer[7 + labelLength];
+			std::string k = "  %-" + std::to_string(labelLength) + "s  ";
+			std::sprintf(buffer, k.c_str(), command->getLabel().c_str());
+			oBuffer << buffer;
+//			// instruction
+			char buffer1[6 + nameLength];
+			k = "%-" + std::to_string(nameLength) + "s  ";
+			std::sprintf(buffer1, k.c_str(), n.c_str());
+			oBuffer << buffer1;
+//			// operand
+			oBuffer << command->printOperand();
+//			// comment
+			oBuffer << "    " << command->getComment();
+			oBuffer << "\n";
+		}
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+		command->leave(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+	}
 }
 void Assembler::generateLog(Prog &program, std::ofstream oBuffer) {
 

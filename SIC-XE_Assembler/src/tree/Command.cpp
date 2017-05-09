@@ -75,15 +75,16 @@ std::string Command::getType() const {
 	return this->type;
 }
 
-void Command::burnObjectCode(unsigned char *data) const {
-	this->burnObjectCode(data, 0, this->getCommandSize());
+std::vector<unsigned char> Command::burnObjectCode() const {
+	std::vector<unsigned char> vec(this->getCommandSize());
+	this->burnObjectCode(vec, 0);
+	return vec;
 }
 
 std::string Command::burnText(std::string buffer) {
 	if (this->getCommandSize() > 0) {
-		unsigned char arr[this->getCommandSize()];
-		this->burnObjectCode(arr);
-		buffer += Conversion::bytesToHex(arr, this->getCommandSize());
+		std::vector<unsigned char> vec = this->burnObjectCode();
+		buffer += Conversion::bytesToHex(vec);
 	}
 	return buffer;
 }
@@ -95,7 +96,7 @@ int Command::getCommandSize() const {
 	return 0;
 }
 
-void Command::burnObjectCode(unsigned char *data, int location,
-		int length) const {
+void Command::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
 
 }

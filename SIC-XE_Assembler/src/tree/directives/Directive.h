@@ -19,8 +19,8 @@ public:
 	virtual ~Directive();
 	virtual std::string printOperand() const;
 	virtual int getCommandSize() const;
-	virtual void burnObjectCode(unsigned char *data, int location,
-			int length) const;
+	virtual void burnObjectCode(std::vector<unsigned char>& vec,
+			int location) const;
 };
 
 #endif /* SRC_TREE_DIRECTIVES_DIRECTIVE_H_ */

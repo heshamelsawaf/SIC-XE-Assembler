@@ -18,7 +18,7 @@ public:
 	virtual ~DirectivesBase();
 	std::string printOperand() const;
 	int getValue() const;
-	void resolve(Prog &program);
+	void resolve(Prog &program, Error** error);
 	Expression &getExpression() const;
 
 protected:

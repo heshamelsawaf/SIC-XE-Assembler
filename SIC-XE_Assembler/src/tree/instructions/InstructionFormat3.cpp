@@ -26,11 +26,10 @@ int InstructionFormat3::getCommandSize() const {
 	return 3;
 }
 
-void InstructionFormat3::burnObjectCode(unsigned char *data, int location,
-		int length) const {
-	data[location] = this->flags->combineWithOpCode(
-			this->mnemonic->getOpCode());
-	data[location + 1] = 0;
-	data[location + 2] = 0;
+void InstructionFormat3::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
+	vec[location] = this->flags->combineWithOpCode(this->mnemonic->getOpCode());
+	vec[location + 1] = 0;
+	vec[location + 2] = 0;
 }
 

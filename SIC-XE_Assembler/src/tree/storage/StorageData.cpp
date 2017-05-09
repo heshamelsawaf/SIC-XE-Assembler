@@ -45,8 +45,8 @@ int StorageData::getCommandSize() const {
 	return this->data->getSize();
 }
 
-void StorageData::burnObjectCode(unsigned char *dta, int location,
-		int length) const {
-	this->data->burnObjectCode(dta, location, length);
+void StorageData::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
+	this->data->burnObjectCode(vec, location);
 }
 

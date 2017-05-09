@@ -21,6 +21,10 @@ Mnemonics::~Mnemonics() {
 }
 
 Mnemonic *Mnemonics::get(std::string name) {
+	std::string nameU = "";
+	for (int i = 0; i < name.length(); i++)
+		nameU.push_back((char) std::toupper(name[i]));
+	name = nameU;
 	if (this->mnemonicsMap.find(name) != this->mnemonicsMap.end())
 		return mnemonicsMap[name];
 	return NULL;

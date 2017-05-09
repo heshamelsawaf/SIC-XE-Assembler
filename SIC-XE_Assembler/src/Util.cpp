@@ -7,7 +7,7 @@
 
 #include "Util.h"
 #include "Logger.h"
-
+#include <algorithm>
 Util::Util() {
 	// TODO Auto-generated constructor stub
 
@@ -26,6 +26,9 @@ std::string Util::readFile(std::ifstream* file) {
 	while (std::getline(*file, line)) {
 		toBeReturned += line + "\n";
 	}
+	toBeReturned.erase(
+			std::remove(toBeReturned.begin(), toBeReturned.end(), '\r'),
+			toBeReturned.end());
 	return toBeReturned;
 }
 

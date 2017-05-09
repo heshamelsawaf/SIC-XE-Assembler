@@ -56,7 +56,7 @@ int LiteralInstruction::getCommandSize() const {
 	return command->getCommandSize();
 }
 
-void LiteralInstruction::burnObjectCode(unsigned char *data, int location,
-		int length) const {
-	command->burnObjectCode(data, location, length);
+void LiteralInstruction::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
+	command->burnObjectCode(vec, location);
 }

@@ -167,6 +167,8 @@ Command *OperandParser::parseDe(Location location, std::string label,
 		Mnemonic *mnemonic, Error** error) {
 	*error = NULL;
 	Expression *expression = this->parseExpression(error);
+	if (*error != NULL)
+		return NULL;
 	switch (mnemonic->getOpCode()) {
 	case Opcode::START:
 		return new START(location, label, mnemonic, expression);
@@ -178,7 +180,11 @@ Command *OperandParser::parseDe(Location location, std::string label,
 
 Command *OperandParser::parseSe(Location location, std::string label,
 		Mnemonic *mnemonic, Error** error) {
-	return new RES(location, label, mnemonic);
+	*error = NULL;
+	Expression *expression = this->parseExpression(error);
+	if (*error != NULL)
+		return NULL;
+	return new RES(location, label, mnemonic, expression);
 }
 
 Command *OperandParser::parseSd(Location location, std::string label,

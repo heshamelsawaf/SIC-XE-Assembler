@@ -9,6 +9,7 @@
 #define SRC_TREE_DATA_DATA_H_
 
 #include <string>
+#include <vector>
 #include "../../asm/Error.h"
 
 class Parser;
@@ -22,18 +23,16 @@ public:
 	bool operator ==(const Data &dta) const;
 	int getSize() const;
 	int getOpCode() const;
-	int getDataLength() const;
-	unsigned char *getData() const;
+	const std::vector<unsigned char>& getData() const;
 	Data *getNext() const;
-	void burnObjectCode(unsigned char *dta, int location, int length) const;
+	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
 
 private:
 	int sizes() const;
 
 protected:
 	int opCode;
-	int dataLength;
-	unsigned char *data;
+	std::vector<unsigned char> data;
 	Data *next;
 };
 

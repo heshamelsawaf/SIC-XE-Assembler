@@ -18,7 +18,10 @@ Parser::Parser(Mnemonics *mnemonics, ErrorController *errorController) {
 }
 
 Parser::~Parser() {
-	// TODO Auto-generated destructor stub
+	delete operandParser;
+	delete expressionParser;
+	operandParser = NULL;
+	expressionParser = NULL;
 }
 
 void Parser::checkWhitespace(std::string fmt, Error** error) {
@@ -97,8 +100,9 @@ Prog *Parser::parseProgram() {
 			continue;
 		}
 		this->skipWhitespace();
+		char pe = getPeekCharacter();
 		comment = readIfComment(false, false);
-		if (command == NULL && !(comment.compare(""))) {
+		if (command == NULL && pe != '.' && !(comment.compare(""))) {
 			Error *error = NULL;
 			this->advancePointer('\n', &error);
 			if (error != NULL) {

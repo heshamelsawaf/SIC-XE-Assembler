@@ -10,17 +10,12 @@
 Storage::Storage(Location location, std::string label, Mnemonic *mnemonic) :
 		Command(location, label, mnemonic) {
 	this->type = "Storage";
-	this->dataLength = 0;
 }
 
 Storage::~Storage() {
 }
 
-void Storage::burnObjectCode(unsigned char *data, int location,
-		int length) const {
+void Storage::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
 
-}
-
-int Storage::getDataLength() const {
-	return this->dataLength;
 }

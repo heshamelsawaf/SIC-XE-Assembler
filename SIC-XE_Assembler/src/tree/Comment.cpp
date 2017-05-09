@@ -28,7 +28,7 @@ int Comment::getCommandSize() const {
 	return 0;
 }
 
-void Comment::burnObjectCode(unsigned char *data, int location,
-		int length) const {
+void Comment::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
 
 }

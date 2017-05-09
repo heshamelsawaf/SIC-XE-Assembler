@@ -14,12 +14,8 @@ class Storage: public Command {
 public:
 	Storage(Location location, std::string label, Mnemonic *mnemonic);
 	virtual ~Storage();
-	virtual void burnObjectCode(unsigned char *data, int location,
-			int length) const;
-	int getDataLength() const;
-
-protected:
-	int dataLength;
+	virtual void burnObjectCode(std::vector<unsigned char>& vec,
+			int location) const;
 };
 
 #endif /* SRC_TREE_STORAGE_STORAGE_H_ */

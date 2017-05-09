@@ -22,7 +22,7 @@ public:
 	Assembler();
 	virtual ~Assembler();
 	Prog *assemble(std::string input);
-	void generateListing(Prog &program, std::ofstream oBuffer);
+	void generateListing(Prog &program, std::ofstream& oBuffer);
 	void generateLog(Prog &program, std::ofstream oBuffer);
 	void generateObj(Prog &program, std::ofstream oBuffer, bool addSpaceInObj);
 	ErrorController *getErrorController() const;
@@ -35,6 +35,7 @@ private:
 	void resolveAbsolute(Prog& program);
 	void resolveBlocks(Prog& program);
 	void resolveSymbols(Prog& program);
+
 };
 
 #endif /* SRC_ASM_ASSEMBLER_H_ */

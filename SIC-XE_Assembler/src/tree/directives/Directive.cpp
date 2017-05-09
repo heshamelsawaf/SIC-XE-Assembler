@@ -22,6 +22,7 @@ std::string Directive::printOperand() const {
 int Directive::getCommandSize() const {
 	return 0;
 }
-void Directive::burnObjectCode(unsigned char *data, int location,
-		int length) const {
+void Directive::burnObjectCode(std::vector<unsigned char>& vec,
+		int location) const {
+
 }

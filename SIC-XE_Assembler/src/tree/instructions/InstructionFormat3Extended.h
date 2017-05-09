@@ -22,7 +22,7 @@ public:
 	void checkSymbol(Prog &program, Symbol *symbol, Error** error) const;
 	bool resolveAddressing(Prog &program);
 	int getCommandSize() const;
-	void burnObjectCode(unsigned char *data, int location, int length) const;
+	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
 };
 
 #endif /* SRC_TREE_INSTRUCTIONS_INSTRUCTIONFORMAT3EXTENDED_H_ */

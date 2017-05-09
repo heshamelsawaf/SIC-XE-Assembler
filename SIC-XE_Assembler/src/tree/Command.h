@@ -9,6 +9,7 @@
 #define SRC_TREE_COMMAND_H_
 
 #include <string>
+#include <vector>
 #include "Node.h"
 #include "../asm/Location.h"
 #include "../home/Mnemonic.h"
@@ -29,9 +30,9 @@ public:
 	std::string getType() const;
 	virtual std::string printOperand() const;
 	virtual int getCommandSize() const;
-	virtual void burnObjectCode(unsigned char *data, int location,
-			int length) const;
-	void burnObjectCode(unsigned char *data) const;
+	virtual void burnObjectCode(std::vector<unsigned char>& vec,
+			int location) const;
+	std::vector<unsigned char> burnObjectCode() const;
 	virtual std::string burnText(std::string buffer);
 
 protected:

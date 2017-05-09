@@ -25,7 +25,7 @@ public:
 	std::string printMnemonicName() const;
 	std::string printOperand() const;
 	int getCommandSize() const;
-	void burnObjectCode(unsigned char *dta, int location, int length) const;
+	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
 	Data *getData() const;
 
 private:

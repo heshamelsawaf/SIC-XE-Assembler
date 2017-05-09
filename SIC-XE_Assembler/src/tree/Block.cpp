@@ -24,8 +24,12 @@ Block::~Block() {
 	// TODO Auto-generated destructor stub
 }
 
+std::string Block::print() const {
+	return (isDefaultBlock() ? "<default>" : blockName);
+}
+
 std::string Block::getBlockName() const {
-	return this->isDefaultBlock() ? "<default>" : this->blockName;
+	return this->blockName;
 }
 
 bool Block::isDefaultBlock() const {

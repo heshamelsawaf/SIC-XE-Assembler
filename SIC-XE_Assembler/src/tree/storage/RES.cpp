@@ -8,16 +8,20 @@
 #include "RES.h"
 #include "../../home/Opcode.h"
 
-RES::RES(Location location, std::string label, Mnemonic *mnemonic) :
+RES::RES(Location location, std::string label, Mnemonic *mnemonic,
+		Expression *expression) :
 		Storage(location, label, mnemonic) {
 	this->count = 0;
+	this->expression = expression;
 }
 
 RES::~RES() {
+	delete expression;
+	expression = NULL;
 }
 
 std::string RES::printOperand() const {
-	return "";
+	return expression->print();
 }
 
 int RES::getCommandSize() const {
@@ -31,16 +35,14 @@ int RES::getCommandSize() const {
 }
 
 void RES::resolve(Prog &program, Error** error) {
-//TODO
+	count = expression->evaluate(program, error);
 }
 
-void RES::burnObjectCode(unsigned char *data, int location, int length) const {
+void RES::burnObjectCode(std::vector<unsigned char>& vec, int location) const {
 	int s = this->getCommandSize();
 	if (s <= 0)
 		return;
-	unsigned char arr[s];
 	for (int i = location; i < location + s; i++)
-		arr[i] = (unsigned char) 0;
-	data = arr;
+		vec[i] = (unsigned char) 0;
 }
 
