@@ -14,7 +14,7 @@
 
 class Symbol: public Node {
 public:
-	Symbol(std::string symbolName, Location *location, int value);
+	Symbol(std::string symbolName, Location location, int value);
 	virtual ~Symbol();
 	int Compare(const Symbol &symbol) const;
 	bool operator ==(const Symbol &symbol) const;
@@ -26,13 +26,13 @@ public:
 	void setAbsolute(bool absolute);
 	int getValue() const;
 	bool isEvaluated() const;
-	void eval(Prog &program, Error *error);
+	void eval(Prog &program, Error** error);
 	std::string getSymbolName() const;
-	Location &getSymbolLocation() const;
+	Location &getSymbolLocation();
 
 private:
 	std::string symbolName;
-	Location *location;
+	Location location;
 	bool absolute;
 	bool evaluated;
 	int value;

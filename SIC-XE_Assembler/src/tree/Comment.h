@@ -14,7 +14,7 @@
 
 class Comment: public Command {
 public:
-	Comment(Location *location, std::string comment);
+	Comment(Location location, std::string comment);
 	virtual ~Comment();
 	std::string print() const;
 	std::string printOperand() const;

@@ -28,7 +28,3 @@ int Location::getRow() const {
 int Location::getColumn() const {
 	return this->column;
 }
-
-Location *Location::clone() const {
-	return new Location(this->position, this->row, this->column);
-}

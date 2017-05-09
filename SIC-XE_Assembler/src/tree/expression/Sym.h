@@ -12,10 +12,10 @@
 
 class Sym: public Expression {
 public:
-	Sym(Location *location, std::string value);
+	Sym(Location location, std::string value);
 	virtual ~Sym();
 	std::string print() const;
-	int evaluate(Prog &program, Error *error);
+	int evaluate(Prog &program, Error** error);
 private:
 	std::string value;
 };

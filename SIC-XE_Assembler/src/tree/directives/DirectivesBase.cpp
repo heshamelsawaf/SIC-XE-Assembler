@@ -7,7 +7,7 @@
 
 #include "DirectivesBase.h"
 
-DirectivesBase::DirectivesBase(Location *location, std::string label,
+DirectivesBase::DirectivesBase(Location location, std::string label,
 		Mnemonic *mnemonic, Expression *expression) :
 		Directive(location, label, mnemonic) {
 	this->value = 0;

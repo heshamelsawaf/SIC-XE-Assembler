@@ -16,9 +16,9 @@
 
 class StorageData: public Directive {
 public:
-	StorageData(Location *location, std::string label, Mnemonic *mnemonic,
+	StorageData(Location location, std::string label, Mnemonic *mnemonic,
 			Data *data, bool isLiteral);
-	StorageData(Location *location, std::string label, Mnemonic *mnemonic,
+	StorageData(Location location, std::string label, Mnemonic *mnemonic,
 			Data *data);
 	virtual ~StorageData();
 	bool operator ==(const StorageData &storageData) const;

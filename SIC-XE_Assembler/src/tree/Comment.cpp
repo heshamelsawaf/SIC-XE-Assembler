@@ -7,7 +7,7 @@
 
 #include "Comment.h"
 
-Comment::Comment(Location *location, std::string comment) :
+Comment::Comment(Location location, std::string comment) :
 		Command(location, "", NULL) {
 	this->setComment(comment);
 }

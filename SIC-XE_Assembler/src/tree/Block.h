@@ -31,8 +31,9 @@ public:
 	int getNextLocationCounter() const;
 	void step(int stepSize);
 	int getBlockSize() const;
-	void enter(Prog &program, Error *error);
-	void leave(Prog &program, Error *error);
+	void enter(Prog &program, Error** error);
+	void leave(Prog &program, Error** error);
+	std::vector<Command *> getCommands() const;
 
 private:
 	std::string blockName;

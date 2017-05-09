@@ -7,7 +7,7 @@
 
 #include "Storage.h"
 
-Storage::Storage(Location *location, std::string label, Mnemonic *mnemonic) :
+Storage::Storage(Location location, std::string label, Mnemonic *mnemonic) :
 		Command(location, label, mnemonic) {
 	this->type = "Storage";
 	this->dataLength = 0;

@@ -112,7 +112,7 @@ std::string BufferDecorator::readIfMnemonic() {
 	return this->subString(mark);
 }
 
-void BufferDecorator::skipComma(Error *error) {
+void BufferDecorator::skipComma(Error** error) {
 	this->skipWhitespace();
 	this->advancePointer(',', error);
 	this->skipWhitespace();
@@ -125,7 +125,7 @@ bool BufferDecorator::skipIfComma() {
 	return res;
 }
 
-bool BufferDecorator::skipIfIndexed(Error *error) {
+bool BufferDecorator::skipIfIndexed(Error** error) {
 	if (this->skipIfComma()) {
 		this->advancePointer('X', error);
 		return true;
@@ -133,17 +133,17 @@ bool BufferDecorator::skipIfIndexed(Error *error) {
 	return false;
 }
 
-std::string BufferDecorator::readSymbol(Error *error) {
+std::string BufferDecorator::readSymbol(Error** error) {
 	std::string sym = this->readAlphanumeric();
 	if (sym.length() > 0) {
-		error = NULL;
+		*error = NULL;
 		return sym;
 	}
-	error = new Error(this->getLocation(), "Symbol expected");
+	*error = new Error(this->getLocation(), "Symbol expected");
 	return "";
 }
 
-int BufferDecorator::readInt(int low, int high, Error *error) {
+int BufferDecorator::readInt(int low, int high, Error** error) {
 	// first detect radix
 	int radix = -1;
 	bool negative = this->advancePointerIf('-');
@@ -169,7 +169,7 @@ int BufferDecorator::readInt(int low, int high, Error *error) {
 	} else if (std::isdigit(this->getPeekCharacter()))
 		radix = 10;
 	else {
-		error = new Error(this->getLocation(), "Number expected");
+		*error = new Error(this->getLocation(), "Number expected");
 		return 0;
 	}
 	// read digits
@@ -177,7 +177,7 @@ int BufferDecorator::readInt(int low, int high, Error *error) {
 	try {
 		num = std::stoi(this->readDigits(radix), nullptr, radix);
 	} catch (std::exception &e) {
-		error = new Error(this->getLocation(), "Invalid number");
+		*error = new Error(this->getLocation(), "Invalid number");
 		return 0;
 	}
 	// number must not be followed by letter or digit
@@ -185,7 +185,7 @@ int BufferDecorator::readInt(int low, int high, Error *error) {
 			|| std::isalpha(this->getPeekCharacter())) {
 		std::string err = "invalid digit";
 		err.push_back(this->getPeekCharacter());
-		error = new Error(this->getLocation(), err);
+		*error = new Error(this->getLocation(), err);
 		return 0;
 	}
 	// check range
@@ -195,9 +195,9 @@ int BufferDecorator::readInt(int low, int high, Error *error) {
 		std::stringstream buffer;
 		buffer << "Number '" << num << "' out of range [" << low << ".." << high
 				<< "]";
-		error = new Error(this->getLocation(), buffer.str());
+		*error = new Error(this->getLocation(), buffer.str());
 		return 0;
 	}
-	error = NULL;
+	*error = NULL;
 	return num;
 }

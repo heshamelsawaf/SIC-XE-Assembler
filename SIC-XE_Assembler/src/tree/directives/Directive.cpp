@@ -7,7 +7,7 @@
 
 #include "Directive.h"
 
-Directive::Directive(Location *location, std::string label, Mnemonic *mnemonic) :
+Directive::Directive(Location location, std::string label, Mnemonic *mnemonic) :
 		Command(location, label, mnemonic) {
 	this->type = "Directive";
 }

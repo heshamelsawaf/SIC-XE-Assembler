@@ -8,7 +8,7 @@
 #include "Sym.h"
 #include "../Prog.h"
 
-Sym::Sym(Location *location, std::string value) :
+Sym::Sym(Location location, std::string value) :
 		Expression("<sym>", location) {
 	this->value = value;
 }
@@ -20,9 +20,9 @@ std::string Sym::print() const {
 	return value;
 }
 
-int Sym::evaluate(Prog &program, Error *error) {
+int Sym::evaluate(Prog &program, Error** error) {
 	if (program.getCurrentSection().getSymbols().isEvaluated(value))
 		return program.getCurrentSection().getSymbols().getSymbol(value)->getValue();
-	error = new Error(location->clone(), "Undefined symbol '" + value + "'!");
+	*error = new Error(location, "Undefined symbol '" + value + "'!");
 	return 0;
 }

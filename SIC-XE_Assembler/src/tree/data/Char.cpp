@@ -24,13 +24,13 @@ std::string Char::print() const {
 	return buffer + Data::print();
 }
 
-void Char::parse(Parser &parser, bool allowList, Error *error) {
-	error = NULL;
+void Char::parse(Parser &parser, bool allowList, Error** error) {
+	*error = NULL;
 	parser.advancePointer('C', error);
-	if (error != NULL)
+	if (*error != NULL)
 		return;
 	parser.advancePointer('\'', error);
-	if (error != NULL)
+	if (*error != NULL)
 		return;
 	std::string temp = parser.readUntil('\'');
 	unsigned char arr[temp.length()];
@@ -39,7 +39,7 @@ void Char::parse(Parser &parser, bool allowList, Error *error) {
 	this->data = arr;
 	this->dataLength = temp.length();
 	if (allowList) {
-		error = NULL;
+		*error = NULL;
 		Data::parse(parser, allowList, error);
 	}
 }

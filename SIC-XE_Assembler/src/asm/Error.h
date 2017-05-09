@@ -13,16 +13,16 @@
 
 class Error {
 public:
-	Error(Location *location, std::string message);
+	Error(Location location, std::string message);
 	Error(std::string message);
 	virtual ~Error();
 	int Compare(const Error &error) const;
 	bool operator ==(const Error &error) const;
 	bool operator <(const Error &error) const;
 	std::string getError() const;
-	Location& getErrorLocation() const;
+	const Location& getErrorLocation() const;
 private:
-	Location *location;
+	Location location;
 	std::string message;
 };
 

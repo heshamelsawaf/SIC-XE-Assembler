@@ -7,7 +7,7 @@
 
 #include "InstructionFormat3.h"
 
-InstructionFormat3::InstructionFormat3(Location *location, std::string label,
+InstructionFormat3::InstructionFormat3(Location location, std::string label,
 		Mnemonic *mnemonic) :
 		Instruction(location, label, mnemonic) {
 	this->flags = new Flags();

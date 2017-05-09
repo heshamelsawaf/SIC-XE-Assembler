@@ -19,7 +19,7 @@ public:
 	virtual ~LiteralInstruction();
 	InstructionFormat3Abstract &getCommand() const;
 	std::string print() const;
-	void append(Prog &program, Error *error);
+	void append(Prog &program, Error** error);
 	std::string printOperand() const;
 	int getCommandSize() const;
 	void burnObjectCode(unsigned char *data, int location, int length) const;

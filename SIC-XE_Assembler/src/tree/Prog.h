@@ -36,7 +36,9 @@ public:
 	void switchSection(std::string sectionName);
 	void switchDefault();
 	void append(Command *command);
-	void enter(Prog &program, Error *error);
+	void enter(Prog &program, Error** error);
+	std::vector<Command *> getCommands() const;
+	std::vector<Section *> getSections() const;
 
 private:
 	std::string name;

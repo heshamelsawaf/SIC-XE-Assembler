@@ -12,11 +12,11 @@
 
 class RES: public Storage {
 public:
-	RES(Location *loaction, std::string label, Mnemonic *mnemonic);
+	RES(Location location, std::string label, Mnemonic *mnemonic);
 	virtual ~RES();
 	std::string printOperand() const;
 	int getCommandSize() const;
-	void resolve(Prog &program, Error *error);
+	void resolve(Prog &program, Error** error);
 	void burnObjectCode(unsigned char *data, int location, int length) const;
 
 private:

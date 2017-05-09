@@ -26,12 +26,12 @@ std::string Num::print() const {
 	return "";
 }
 
-void Num::parse(Parser &parser, bool allowList, Error *error) {
+void Num::parse(Parser &parser, bool allowList, Error** error) {
 	switch (this->opCode) {
 	case Opcode::BYTE:
-		error = NULL;
+		*error = NULL;
 		this->intNum = parser.readInt(-128, 255, error);
-		if (error != NULL)
+		if (*error != NULL)
 			return;
 		unsigned char arr[1];
 		this->dataLength = 1;
@@ -39,9 +39,9 @@ void Num::parse(Parser &parser, bool allowList, Error *error) {
 		this->data = arr;
 		break;
 	case Opcode::WORD:
-		error = NULL;
+		*error = NULL;
 		this->intNum = parser.readInt(-(2 << 23), (1 << 24) - 1, error);
-		if (error != NULL)
+		if (*error != NULL)
 			return;
 		unsigned char arr1[3];
 		this->dataLength = 3;
@@ -52,7 +52,7 @@ void Num::parse(Parser &parser, bool allowList, Error *error) {
 		break;
 	}
 	if (allowList) {
-		error = NULL;
+		*error = NULL;
 		Data::parse(parser, allowList, error);
 	}
 }

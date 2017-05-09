@@ -16,10 +16,10 @@
 
 class InstructionFormat3Extended: public InstructionFormat3Abstract {
 public:
-	InstructionFormat3Extended(Location *location, std::string label,
+	InstructionFormat3Extended(Location location, std::string label,
 			Mnemonic *mnemonic, Flags *flags, int operand, std::string symbol);
 	virtual ~InstructionFormat3Extended();
-	void checkSymbol(Prog &program, Symbol *symbol, Error *error) const;
+	void checkSymbol(Prog &program, Symbol *symbol, Error** error) const;
 	bool resolveAddressing(Prog &program);
 	int getCommandSize() const;
 	void burnObjectCode(unsigned char *data, int location, int length) const;

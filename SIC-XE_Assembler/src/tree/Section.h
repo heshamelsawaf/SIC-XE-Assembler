@@ -12,7 +12,6 @@
 #include "Block.h"
 #include "Symbols.h"
 #include "Literals.h"
-#include "Relocation.h"
 #include <string>
 #include <vector>
 
@@ -20,6 +19,7 @@ class Section: public Node {
 public:
 	Section(std::string sectionName);
 	virtual ~Section();
+	std::string print() const;
 	std::string getSectionName() const;
 	bool isDefaultSection() const;
 	int getSectionSize() const;
@@ -27,21 +27,19 @@ public:
 	void reset();
 	Block &getCurrentBlock() const;
 	void switchBlock(std::string blockName);
-	void addRelocation(int address, int length);
 	Symbols &getSymbols() const;
 	Literals &getLiterals() const;
-	void enter(Prog &program, Error *error);
+	void enter(Prog &program, Error** error);
+	std::vector<Block *> getBlocks() const;
 
 private:
 	int sectionSize;
 	std::string sectionName;
 	std::vector<Block *> blocks;
-	std::vector<Relocation *> relocations;
 	Symbols *symbols;
 	Literals *literals;
 	Block *currentBlock;
 	Block *findBlock(std::string blockName);
-	void addRelocation(Relocation *relocation);
 
 };
 

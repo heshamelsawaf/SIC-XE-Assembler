@@ -15,13 +15,13 @@ class ErrorController {
 public:
 	ErrorController();
 	virtual ~ErrorController();
-	void add(Error *error);
+	void add(const Error *error);
 	void clear();
 	int count() const;
 	void print();
-	void printByRow(int row) const;
+	void printByRow(const int row) const;
 private:
-	std::vector<Error *> errors;
+	std::vector<const Error *> errors;
 	int last;
 	void destroyPointers();
 };

@@ -12,7 +12,7 @@
 
 class Storage: public Command {
 public:
-	Storage(Location *location, std::string label, Mnemonic *mnemonic);
+	Storage(Location location, std::string label, Mnemonic *mnemonic);
 	virtual ~Storage();
 	virtual void burnObjectCode(unsigned char *data, int location,
 			int length) const;

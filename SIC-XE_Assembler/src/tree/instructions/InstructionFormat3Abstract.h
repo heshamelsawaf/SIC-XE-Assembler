@@ -20,10 +20,11 @@ public:
 	virtual ~InstructionFormat3Abstract();
 	virtual std::string printOperand() const;
 	void setSymbol(std::string symbol);
-	virtual void checkSymbol(Prog &program, Symbol *symbol, Error *error) const;
+	virtual void checkSymbol(Prog &program, Symbol *symbol,
+			Error** error) const;
 	virtual bool resolveAddressing(Prog &program);
-	void resolve(Prog &program, Error *error);
-	Location *getLocation() const;
+	void resolve(Prog &program, Error** error);
+	Location& getLocation() const;
 	Mnemonic *getMnemonic() const;
 	std::string getSymbol() const;
 
@@ -31,7 +32,7 @@ private:
 	bool operandIsValue() const;
 
 protected:
-	InstructionFormat3Abstract(Location *location, std::string label,
+	InstructionFormat3Abstract(Location location, std::string label,
 			Mnemonic *mnemonic, Flags *flags, int value, std::string symbol);
 	Flags *flags;
 	Symbol *resolvedSymbol;

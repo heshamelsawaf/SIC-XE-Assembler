@@ -7,9 +7,9 @@
 
 #include "Symbol.h"
 
-Symbol::Symbol(std::string symbolName, Location *location, int value) {
+Symbol::Symbol(std::string symbolName, Location location, int value) :
+		location(location) {
 	this->symbolName = symbolName;
-	this->location = location;
 	this->value = value;
 	this->evaluated = true;
 	this->absolute = false;
@@ -66,15 +66,15 @@ bool Symbol::isEvaluated() const {
 	return this->evaluated;
 }
 
-void Symbol::eval(Prog &program, Error *error) {
+void Symbol::eval(Prog &program, Error** error) {
 	evaluated = true;
-	error = NULL;
+	*error = NULL;
 }
 
 std::string Symbol::getSymbolName() const {
 	return this->symbolName;
 }
 
-Location &Symbol::getSymbolLocation() const {
-	return *(this->location);
+Location &Symbol::getSymbolLocation() {
+	return location;
 }

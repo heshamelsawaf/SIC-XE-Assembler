@@ -12,10 +12,10 @@
 
 class Int: public Expression {
 public:
-	Int(Location *location, int value);
+	Int(Location location, int value);
 	virtual ~Int();
 	std::string print() const;
-	int evaluate(Prog &program, Error *error);
+	int evaluate(Prog &program, Error** error);
 private:
 	int value;
 };

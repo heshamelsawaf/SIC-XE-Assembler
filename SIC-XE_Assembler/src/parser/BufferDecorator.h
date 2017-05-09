@@ -20,11 +20,11 @@ public:
 	std::string readIfComment(bool requireDot, bool skipEmptyLines);
 	std::string readIfLabel();
 	std::string readIfMnemonic();
-	void skipComma(Error *error);
+	void skipComma(Error** error);
 	bool skipIfComma();
-	bool skipIfIndexed(Error *error);
-	std::string readSymbol(Error *error);
-	int readInt(int low, int high, Error *error);
+	bool skipIfIndexed(Error** error);
+	std::string readSymbol(Error** error);
+	int readInt(int low, int high, Error** error);
 
 private:
 	bool isWhitespace() const;

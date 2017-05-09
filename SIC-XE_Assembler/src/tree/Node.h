@@ -16,8 +16,8 @@ class Node {
 public:
 	Node();
 	virtual ~Node();
-	virtual void enter(Prog &program, Error *error);
-	virtual void leave(Prog &program, Error *error);
+	virtual void enter(Prog &program, Error** error);
+	virtual void leave(Prog &program, Error** error);
 };
 
 #endif /* SRC_TREE_NODE_H_ */

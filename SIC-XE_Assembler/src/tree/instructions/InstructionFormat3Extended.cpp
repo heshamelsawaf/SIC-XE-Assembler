@@ -9,7 +9,7 @@
 #include "../../SIC.h"
 #include "../Prog.h"
 
-InstructionFormat3Extended::InstructionFormat3Extended(Location *location,
+InstructionFormat3Extended::InstructionFormat3Extended(Location location,
 		std::string label, Mnemonic *mnemonic, Flags *flags, int operand,
 		std::string symbol) :
 		InstructionFormat3Abstract(location, label, mnemonic, flags, operand,
@@ -20,7 +20,7 @@ InstructionFormat3Extended::~InstructionFormat3Extended() {
 }
 
 void InstructionFormat3Extended::checkSymbol(Prog &program, Symbol *symbol,
-		Error *error) const {
+		Error** error) const {
 
 }
 

@@ -28,12 +28,12 @@ OperandParser::OperandParser(Parser *parser) {
 OperandParser::~OperandParser() {
 }
 
-void OperandParser::checkWhitespace(std::string name, Error *error) {
+void OperandParser::checkWhitespace(std::string name, Error** error) {
 	this->parser->checkWhitespace(
 			"Missing whitespace after mnemonic '" + name + "'!", error);
 }
 
-Data *OperandParser::parseData(int opcode, bool allowList, Error *error) {
+Data *OperandParser::parseData(int opcode, bool allowList, Error** error) {
 	Data *data;
 	switch (this->parser->getPeekCharacter()) {
 	case 'C':
@@ -46,9 +46,9 @@ Data *OperandParser::parseData(int opcode, bool allowList, Error *error) {
 		data = new Num(opcode);
 		break;
 	}
-	error = NULL;
+	*error = NULL;
 	data->parse(*parser, allowList, error);
-	if (error != NULL) {
+	if (*error != NULL) {
 		delete data;
 		return NULL;
 	}
@@ -69,29 +69,29 @@ Mnemonic *OperandParser::parseLiteralSpec() {
 	return mnm;
 }
 
-StorageData *OperandParser::parseLiteralData(Error *error) {
-	Location *location = this->parser->getLocation();
+StorageData *OperandParser::parseLiteralData(Error** error) {
+	Location location = this->parser->getLocation();
 	Mnemonic *mnm = this->parseLiteralSpec();
 	this->parser->skipWhitespace();
-	error = NULL;
+	*error = NULL;
 	Data *data = this->parseData(mnm->getOpCode(), false, error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	std::string lbl =
 			this->parser->getProgram().getCurrentSection().getLiterals().printUniqueLabel();
 	return new StorageData(location, lbl, mnm, data);
 }
 
-Command *OperandParser::parseF3(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
+Command *OperandParser::parseF3(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
 	return new InstructionFormat3(location, label, mnemonic);
 }
 
-Command *OperandParser::parseF3Extended(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
-	error = NULL;
+Command *OperandParser::parseF3Extended(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
+	*error = NULL;
 	this->checkWhitespace(mnemonic->getName(), error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	Flags *flags = new Flags();
 	int operand;
@@ -100,9 +100,9 @@ Command *OperandParser::parseF3Extended(Location *location, std::string label,
 	if (this->parser->advancePointerIf('=')) {
 		InstructionFormat3Abstract *cmd = new InstructionFormat3Extended(
 				location, label, mnemonic, flags, 0, "");
-		error = NULL;
+		*error = NULL;
 		StorageData *lit = this->parseLiteralData(error);
-		if (error != NULL) {
+		if (*error != NULL) {
 			delete cmd;
 			cmd = NULL;
 			return NULL;
@@ -112,19 +112,19 @@ Command *OperandParser::parseF3Extended(Location *location, std::string label,
 	// read operand: number, symbol, '*'
 	if (std::isdigit(this->parser->getPeekCharacter())
 			|| this->parser->getPeekCharacter() == '-') {
-		error = NULL;
+		*error = NULL;
 		operand = this->parser->readInt(flags->getMinOperand(),
 				flags->getMaxOperand(), error);
-		if (error != NULL) {
+		if (*error != NULL) {
 			delete flags;
 			return NULL;
 		}
 		symbol = "";
 	} else if (std::isalpha(this->parser->getPeekCharacter())) {
 		operand = 0;
-		error = NULL;
+		*error = NULL;
 		symbol = this->parser->readSymbol(error);
-		if (error != NULL) {
+		if (*error != NULL) {
 			delete flags;
 			return NULL;
 		}
@@ -134,12 +134,12 @@ Command *OperandParser::parseF3Extended(Location *location, std::string label,
 	} else {
 		std::string errMsg = "Invalid character '"
 				+ std::to_string(this->parser->getPeekCharacter()) + "'!";
-		error = new Error(this->parser->getLocation(), errMsg);
+		*error = new Error(this->parser->getLocation(), errMsg);
 	}
 	// check for indexed addressing (only if simple)
-	error = NULL;
+	*error = NULL;
 	bool tes = this->parser->skipIfIndexed(error);
-	if (error != NULL) {
+	if (*error != NULL) {
 		delete flags;
 		return NULL;
 	}
@@ -149,13 +149,13 @@ Command *OperandParser::parseF3Extended(Location *location, std::string label,
 			operand, symbol);
 }
 
-Expression *OperandParser::parseExpression(Error *error) {
-	error = NULL;
+Expression *OperandParser::parseExpression(Error** error) {
+	*error = NULL;
 	Expression *expr = parser->getExpressionParser().parseExpression(error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	if (expr == NULL) {
-		error = new Error(parser->getLocation(),
+		*error = new Error(parser->getLocation(),
 				"Expression expected '"
 						+ std::to_string(parser->getPeekCharacter()) + "'!");
 		return NULL;
@@ -163,9 +163,9 @@ Expression *OperandParser::parseExpression(Error *error) {
 	return expr;
 }
 
-Command *OperandParser::parseDe(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
-	error = NULL;
+Command *OperandParser::parseDe(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
+	*error = NULL;
 	Expression *expression = this->parseExpression(error);
 	switch (mnemonic->getOpCode()) {
 	case Opcode::START:
@@ -176,32 +176,32 @@ Command *OperandParser::parseDe(Location *location, std::string label,
 	return NULL;
 }
 
-Command *OperandParser::parseSe(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
+Command *OperandParser::parseSe(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
 	return new RES(location, label, mnemonic);
 }
 
-Command *OperandParser::parseSd(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
-	error = NULL;
+Command *OperandParser::parseSd(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
+	*error = NULL;
 	Data *data = this->parseData(mnemonic->getOpCode(), false, error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	return new StorageData(location, label, mnemonic, data, false);
 }
 
-Command *OperandParser::parseSd_(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
-	error = NULL;
+Command *OperandParser::parseSd_(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
+	*error = NULL;
 	Data *data = this->parseData(mnemonic->getOpCode(), true, error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	return new StorageData(location, label, mnemonic, data, false);
 }
 
-Command *OperandParser::parse(Location *location, std::string label,
-		Mnemonic *mnemonic, Error *error) {
-	error = NULL;
+Command *OperandParser::parse(Location location, std::string label,
+		Mnemonic *mnemonic, Error** error) {
+	*error = NULL;
 	switch (mnemonic->getType()) {
 	case 0:
 		return this->parseF3(location, label, mnemonic, error);

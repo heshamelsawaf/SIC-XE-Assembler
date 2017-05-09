@@ -15,7 +15,7 @@
 
 class InstructionFormat3: public Instruction {
 public:
-	InstructionFormat3(Location *location, std::string label,
+	InstructionFormat3(Location location, std::string label,
 			Mnemonic *mnemonic);
 	virtual ~InstructionFormat3();
 	std::string printOperand() const;

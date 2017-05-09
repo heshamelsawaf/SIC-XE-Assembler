@@ -13,15 +13,13 @@ ErrorController::ErrorController() {
 }
 
 ErrorController::~ErrorController() {
-	this->clear();
 }
 
-void ErrorController::add(Error *error) {
-	this->errors.push_back(error);
+void ErrorController::add(const Error *error) {
+	errors.push_back(error);
 }
 
 void ErrorController::clear() {
-	this->destroyPointers();
 	this->errors.clear();
 	this->last = 0;
 }
@@ -32,14 +30,8 @@ void ErrorController::print() {
 	for (; last < this->count(); last++)
 		Logger::err(errors[last]->getError());
 }
-void ErrorController::printByRow(int row) const {
+void ErrorController::printByRow(const int row) const {
 	for (int i = 0; i < this->count(); i++)
 		if (errors[i]->getErrorLocation().getRow() == row)
 			Logger::err(errors[i]->getError());
 }
-
-void ErrorController::destroyPointers() {
-	for (int i = 0; i < this->count(); i++)
-		delete errors[i];
-}
-

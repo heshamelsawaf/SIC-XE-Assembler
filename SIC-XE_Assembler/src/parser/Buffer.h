@@ -20,10 +20,10 @@ public:
 	int getPosition() const;
 	int getRow() const;
 	int getColumn() const;
-	Location *getLocation() const;
+	Location getLocation() const;
 	bool isReady() const;
 	char getPeekCharacter() const;
-	void advancePointer(char character, Error *error);
+	void advancePointer(char character, Error** error);
 	bool advancePointerIf(char character);
 	bool advancePointerIf(std::string str);
 	void advancePointerUntil(char delimiter);

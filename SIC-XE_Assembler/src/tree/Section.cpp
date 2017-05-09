@@ -28,8 +28,12 @@ Section::~Section() {
 	this->blocks.clear();
 }
 
+std::string Section::print() const {
+	return (isDefaultSection() ? "<default>" : sectionName);
+}
+
 std::string Section::getSectionName() const {
-	return (this->isDefaultSection() ? "<default>" : this->sectionName);
+	return sectionName;
 }
 
 bool Section::isDefaultSection() const {
@@ -75,15 +79,11 @@ Literals &Section::getLiterals() const {
 	return *(this->literals);
 }
 
-void Section::addRelocation(Relocation *relocation) {
-	this->relocations.push_back(relocation);
+std::vector<Block *> Section::getBlocks() const {
+	return blocks;
 }
 
-void Section::addRelocation(int address, int length) {
-	this->addRelocation(new Relocation(address, length));
-}
-
-void Section::enter(Prog &program, Error *error) {
+void Section::enter(Prog &program, Error** error) {
 	program.switchSection(this->getSectionName());
 	program.getCurrentSection().switchBlock("");
 }

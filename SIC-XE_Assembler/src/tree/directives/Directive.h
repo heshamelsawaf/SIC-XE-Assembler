@@ -15,7 +15,7 @@
 
 class Directive: public Command {
 public:
-	Directive(Location *location, std::string label, Mnemonic *mnemonic);
+	Directive(Location location, std::string label, Mnemonic *mnemonic);
 	virtual ~Directive();
 	virtual std::string printOperand() const;
 	virtual int getCommandSize() const;

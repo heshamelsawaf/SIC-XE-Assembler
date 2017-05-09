@@ -89,10 +89,14 @@ int Block::getBlockSize() const {
 	return this->blockSize;
 }
 
-void Block::enter(Prog &program, Error *error) {
+void Block::enter(Prog &program, Error** error) {
 	program.getCurrentSection().switchBlock(this->blockName);
 }
 
-void Block::leave(Prog &program, Error *error) {
+void Block::leave(Prog &program, Error** error) {
 	this->blockSize = this->nextLocationCounter - this->blockStartAddress;
+}
+
+std::vector<Command *> Block::getCommands() const {
+	return commands;
 }

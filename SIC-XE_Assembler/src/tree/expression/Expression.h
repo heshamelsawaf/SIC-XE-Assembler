@@ -16,15 +16,15 @@ class Prog;
 
 class Expression {
 public:
-	Expression(std::string name, Location *location);
+	Expression(std::string name, Location location);
 	virtual ~Expression();
 	virtual std::string print() const;
 	Expression *getParsedExpression();
-	virtual int evaluate(Prog &program, Error *error);
+	virtual int evaluate(Prog &program, Error** error);
 
 protected:
 	std::string name;
-	Location *location;
+	Location& location;
 
 };
 

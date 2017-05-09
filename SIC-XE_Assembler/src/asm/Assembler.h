@@ -15,6 +15,8 @@
 #include <string>
 #include <fstream>
 
+class START;
+
 class Assembler {
 public:
 	Assembler();
@@ -29,6 +31,10 @@ private:
 	ErrorController *errorController;
 	Mnemonics *mnemonics;
 	Parser *parser;
+	void visitSTART(Prog &program, START &d, Error** error);
+	void resolveAbsolute(Prog& program);
+	void resolveBlocks(Prog& program);
+	void resolveSymbols(Prog& program);
 };
 
 #endif /* SRC_ASM_ASSEMBLER_H_ */

@@ -29,7 +29,7 @@ std::string Data::print() const {
 	return (this->next == NULL) ? "" : "," + this->next->print();
 }
 
-void Data::parse(Parser &parser, bool allowList, Error *error) {
+void Data::parse(Parser &parser, bool allowList, Error** error) {
 	if (allowList && parser.skipIfComma())
 		this->next = parser.getOperandParser().parseData(this->opCode, true,
 				error);

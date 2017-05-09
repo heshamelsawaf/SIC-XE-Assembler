@@ -7,7 +7,7 @@
 
 #include "START.h"
 
-START::START(Location *location, std::string label, Mnemonic *mnemonic,
+START::START(Location location, std::string label, Mnemonic *mnemonic,
 		Expression *expression) :
 		DirectivesBase(location, label, mnemonic, expression) {
 
@@ -17,12 +17,12 @@ START::~START() {
 	// TODO Auto-generated destructor stub
 }
 
-void START::append(Prog &program, Error *error) {
+void START::append(Prog &program, Error** error) {
 	if (!(this->hasLabel())) {
 		std::string errMsg = "Missing label at START";
-		error = new Error(this->getLocation().clone(), errMsg);
+		*error = new Error(this->getLocation(), errMsg);
 		return;
 	}
-	error = NULL;
+	*error = NULL;
 	DirectivesBase::append(program, error);
 }

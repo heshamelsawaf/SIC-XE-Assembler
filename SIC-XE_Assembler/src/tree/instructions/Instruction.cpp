@@ -7,7 +7,7 @@
 
 #include "Instruction.h"
 
-Instruction::Instruction(Location *location, std::string label,
+Instruction::Instruction(Location location, std::string label,
 		Mnemonic *mnemonic) :
 		Command(location, label, mnemonic) {
 	this->type = "Instruction";

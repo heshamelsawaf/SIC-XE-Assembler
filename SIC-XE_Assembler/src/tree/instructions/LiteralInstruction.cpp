@@ -29,10 +29,10 @@ std::string LiteralInstruction::print() const {
 	return this->command->print() + " " + this->printOperand();
 }
 
-void LiteralInstruction::append(Prog &program, Error *error) {
-	error = NULL;
+void LiteralInstruction::append(Prog &program, Error** error) {
+	*error = NULL;
 	this->enter(program, error);
-	if (error != NULL)
+	if (*error != NULL)
 		return;
 	StorageData *lit = program.getCurrentSection().getLiterals().find(
 			*(this->literal));
@@ -42,7 +42,7 @@ void LiteralInstruction::append(Prog &program, Error *error) {
 		program.getCurrentSection().getLiterals().append(this->literal);
 	this->command->setSymbol(this->literal->getLabel());
 	program.append(this);       // add command to the current block
-	error = NULL;
+	*error = NULL;
 	this->leave(program, error);
 }
 

@@ -17,7 +17,7 @@ class Instruction: public Command {
 public:
 	virtual ~Instruction();
 protected:
-	Instruction(Location *location, std::string label, Mnemonic *mnemonic);
+	Instruction(Location location, std::string label, Mnemonic *mnemonic);
 };
 
 #endif /* SRC_TREE_INSTRUCTIONS_INSTRUCTION_H_ */

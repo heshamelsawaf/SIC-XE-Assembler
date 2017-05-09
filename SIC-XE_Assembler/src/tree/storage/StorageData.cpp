@@ -7,14 +7,14 @@
 
 #include "StorageData.h"
 
-StorageData::StorageData(Location *location, std::string label,
+StorageData::StorageData(Location location, std::string label,
 		Mnemonic *mnemonic, Data *data, bool isLiteral) :
 		Directive(location, label, mnemonic) {
 	this->data = data;
 	this->isLiteral = isLiteral;
 }
 
-StorageData::StorageData(Location *location, std::string label,
+StorageData::StorageData(Location location, std::string label,
 		Mnemonic *mnemonic, Data *data) :
 		Directive(location, label, mnemonic) {
 	this->data = data;

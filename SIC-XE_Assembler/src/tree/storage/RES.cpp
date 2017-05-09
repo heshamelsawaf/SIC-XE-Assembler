@@ -8,7 +8,7 @@
 #include "RES.h"
 #include "../../home/Opcode.h"
 
-RES::RES(Location *loaction, std::string label, Mnemonic *mnemonic) :
+RES::RES(Location location, std::string label, Mnemonic *mnemonic) :
 		Storage(location, label, mnemonic) {
 	this->count = 0;
 }
@@ -30,7 +30,7 @@ int RES::getCommandSize() const {
 	return 0;
 }
 
-void RES::resolve(Prog &program, Error *error) {
+void RES::resolve(Prog &program, Error** error) {
 //TODO
 }
 

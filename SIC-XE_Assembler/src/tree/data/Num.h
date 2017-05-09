@@ -15,7 +15,7 @@ public:
 	Num(int opCode);
 	virtual ~Num();
 	std::string print() const;
-	void parse(Parser &parser, bool allowList, Error *error);
+	void parse(Parser &parser, bool allowList, Error** error);
 
 private:
 	int intNum;

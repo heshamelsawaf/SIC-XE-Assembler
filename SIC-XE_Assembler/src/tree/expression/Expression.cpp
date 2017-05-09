@@ -8,14 +8,12 @@
 #include "Expression.h"
 #include "../Prog.h"
 
-Expression::Expression(std::string name, Location *location) {
+Expression::Expression(std::string name, Location location) :
+		location(location) {
 	this->name = name;
-	this->location = location;
 }
 
 Expression::~Expression() {
-	delete this->location;
-	this->location = NULL;
 }
 
 std::string Expression::print() const {
@@ -26,6 +24,6 @@ Expression *Expression::getParsedExpression() {
 	return this;
 }
 
-int Expression::evaluate(Prog &program, Error *error) {
+int Expression::evaluate(Prog &program, Error** error) {
 	return 0;
 }

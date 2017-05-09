@@ -7,7 +7,7 @@
 
 #include "Int.h"
 
-Int::Int(Location *location, int value) :
+Int::Int(Location location, int value) :
 		Expression("<int>", location) {
 	this->value = value;
 }
@@ -20,6 +20,6 @@ std::string Int::print() const {
 	return std::to_string(value);
 }
 
-int Int::evaluate(Prog &program, Error *error) {
+int Int::evaluate(Prog &program, Error** error) {
 	return value;
 }

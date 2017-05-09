@@ -55,27 +55,27 @@ bool Symbols::isEvaluated(std::string symbolName) {
 			&& this->getSymbol(symbolName)->isEvaluated();
 }
 
-void Symbols::define(Symbol *symbol, Error *error) {
+void Symbols::define(Symbol *symbol, Error** error) {
 	if (!(symbol->getSymbolName().compare(""))) {
-		error = NULL;
+		*error = NULL;
 		return;
 	}
 	if (this->isDefined(symbol->getSymbolName())) {
 		std::string errMsg = "Duplicate symbol '" + symbol->getSymbolName()
 				+ "'!";
-		error = new Error(symbol->getSymbolLocation().clone(), errMsg);
+		*error = new Error(symbol->getSymbolLocation(), errMsg);
 		return;
 	}
 	if ((int) symbol->getSymbolName().length()
 			> this->maxSymbolIdentifierLength)
 		this->maxSymbolIdentifierLength = symbol->getSymbolName().length();
 	symbolTable[symbol->getSymbolName()] = symbol;
-	error = NULL;
+	*error = NULL;
 }
 
-void Symbols::defineLabel(std::string labelName, Location *location, int value,
-		Error *error) {
-	error = NULL;
+void Symbols::defineLabel(std::string labelName, Location location, int value,
+		Error** error) {
+	*error = NULL;
 	this->define(new Symbol(labelName, location, value), error);
 }
 

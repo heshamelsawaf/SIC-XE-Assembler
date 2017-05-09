@@ -9,8 +9,8 @@
 #include "Prog.h"
 #include "../Conversion.h"
 
-Command::Command(Location *location, std::string label, Mnemonic *mnemonic) {
-	this->location = location;
+Command::Command(Location location, std::string label, Mnemonic *mnemonic) :
+		location(location) {
 	this->label = label;
 	this->mnemonic = mnemonic;
 	this->comment = "";
@@ -19,21 +19,19 @@ Command::Command(Location *location, std::string label, Mnemonic *mnemonic) {
 
 Command::~Command() {
 	delete this->mnemonic;
-	delete this->location;
 	this->mnemonic = NULL;
-	this->location = NULL;
 }
 
 std::string Command::print() const {
 	return this->printMnemonicName() + " " + this->printOperand();
 }
 
-void Command::enter(Prog &program, Error *error) {
+void Command::enter(Prog &program, Error** error) {
 	program.step(this->getCommandSize());
-	error = NULL;
+	*error = NULL;
 }
 
-void Command::append(Prog &program, Error *error) {
+void Command::append(Prog &program, Error** error) {
 	this->enter(program, error);
 	program.append(this);
 	this->leave(program, error);
@@ -70,7 +68,7 @@ std::string Command::printMnemonicName() const {
 }
 
 Location &Command::getLocation() {
-	return *(this->location);
+	return location;
 }
 
 std::string Command::getType() const {

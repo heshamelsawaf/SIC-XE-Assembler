@@ -15,7 +15,7 @@ public:
 	Char(int opCode);
 	virtual ~Char();
 	std::string print() const;
-	void parse(Parser &parser, bool allowList, Error *error);
+	void parse(Parser &parser, bool allowList, Error** error);
 };
 
 #endif /* SRC_TREE_DATA_CHAR_H_ */

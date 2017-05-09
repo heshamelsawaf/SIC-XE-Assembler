@@ -20,8 +20,8 @@ class Parser: public BufferDecorator {
 public:
 	Parser(Mnemonics *mnemonics, ErrorController *errorController);
 	virtual ~Parser();
-	void checkWhitespace(std::string fmt, Error *error);
-	Command *parseIfCommand(Error *error);
+	void checkWhitespace(std::string fmt, Error** error);
+	Command *parseIfCommand(Error** error);
 	OperandParser &getOperandParser() const;
 	ExpressionParser &getExpressionParser() const;
 	Mnemonics &getMnemonics() const;

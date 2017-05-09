@@ -15,7 +15,6 @@ public:
 	int getPositon() const;
 	int getRow() const;
 	int getColumn() const;
-	Location *clone() const;
 private:
 	int position;
 	int row;

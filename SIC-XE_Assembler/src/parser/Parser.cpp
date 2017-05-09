@@ -21,9 +21,9 @@ Parser::~Parser() {
 	// TODO Auto-generated destructor stub
 }
 
-void Parser::checkWhitespace(std::string fmt, Error *error) {
-	if (std::isspace(this->previousCharacter)) {
-		error = new Error(this->getLocation(), fmt);
+void Parser::checkWhitespace(std::string fmt, Error** error) {
+	if (!(std::isspace(this->previousCharacter))) {
+		*error = new Error(this->getLocation(), fmt);
 		return;
 	}
 }
@@ -44,42 +44,37 @@ ExpressionParser &Parser::getExpressionParser() const {
 	return *(this->expressionParser);
 }
 
-Command *Parser::parseIfCommand(Error *error) {
-	Location *loc = this->getLocation();
+Command *Parser::parseIfCommand(Error** error) {
+	Location loc = this->getLocation();
 	std::string label = this->readIfLabel();
 	this->skipWhitespace();
 	if (label.compare("")) {
-		error = NULL;
+		*error = NULL;
 		this->checkWhitespace("Missing whitespace after label '" + label + "'!",
 				error);
-		if (error != NULL) {
-			delete loc;
+		if (*error != NULL) {
 			return NULL;
 		}
 	} else {
-		delete loc;
-		loc = NULL;
 		loc = this->getLocation();
 	}
 	std::string name = this->readIfMnemonic();
 	if (!(name.compare(""))) {
 		if (!(label.compare(""))) {
-			delete loc;
-			loc = NULL;
 			return NULL; // no instruction present
 		}
-		error = new Error(loc, "Missing mnemonic");
+		*error = new Error(loc, "Missing mnemonic");
 		return NULL;
 	}
 	Mnemonic *mnemonic = this->mnemonics->get(name);
 	if (mnemonic == NULL) {
-		error = new Error(loc, "Invalid mnemonic '" + name + "'!");
+		*error = new Error(loc, "Invalid mnemonic '" + name + "'!");
 		return NULL;
 	}
 	this->skipWhitespace();
-	error = NULL;
+	*error = NULL;
 	Command *ret = this->operandParser->parse(loc, label, mnemonic, error);
-	if (error != NULL)
+	if (*error != NULL)
 		return NULL;
 	return ret;
 }
@@ -91,11 +86,11 @@ Prog *Parser::parseProgram() {
 		this->advancePointerUntil('\n');
 	// do the lines
 	while (this->isReady()) { // column must be equal to 1;
-		Location *lineLoc = this->getLocation();
+		Location lineLoc = this->getLocation();
 		Command *command;
 		std::string comment;
 		Error *error = NULL;
-		command = this->parseIfCommand(error);
+		command = this->parseIfCommand(&error);
 		if (error != NULL) {
 			this->errorController->add(error);
 			this->advancePointerUntil('\n');
@@ -105,7 +100,7 @@ Prog *Parser::parseProgram() {
 		comment = readIfComment(false, false);
 		if (command == NULL && !(comment.compare(""))) {
 			Error *error = NULL;
-			this->advancePointer('\n', error);
+			this->advancePointer('\n', &error);
 			if (error != NULL) {
 				this->errorController->add(error);
 				this->advancePointerUntil('\n');
@@ -118,7 +113,7 @@ Prog *Parser::parseProgram() {
 			// command with possible comment
 			command->setComment(comment);
 			Error *error = NULL;
-			command->append(*program, error);
+			command->append(*program, &error);
 			if (error != NULL) {
 				this->errorController->add(error);
 				continue;
@@ -127,7 +122,7 @@ Prog *Parser::parseProgram() {
 			// only comment
 			command = new Comment(lineLoc, comment);
 			Error *error = NULL;
-			command->append(*program, error);
+			command->append(*program, &error);
 			if (error != NULL) {
 				this->errorController->add(error);
 				continue;
@@ -136,7 +131,7 @@ Prog *Parser::parseProgram() {
 
 			command = new Comment(lineLoc, "");
 			Error *error = NULL;
-			command->append(*program, error);
+			command->append(*program, &error);
 			if (error != NULL) {
 				this->errorController->add(error);
 				continue;

@@ -24,14 +24,14 @@ public:
 	std::vector<Symbol> sortedV() const;
 	Symbol *getSymbol(std::string symbolName);
 	bool isEvaluated(std::string symbolName);
-	void defineLabel(std::string labelName, Location *location, int value,
-			Error *error);
+	void defineLabel(std::string labelName, Location location, int value,
+			Error** error);
 
 private:
 	int maxSymbolIdentifierLength;
 	std::map<std::string, Symbol *> symbolTable;
 	bool isDefined(std::string symbolName);
-	void define(Symbol *symbol, Error *error);
+	void define(Symbol *symbol, Error** error);
 };
 
 #endif /* SRC_TREE_SYMBOLS_H_ */

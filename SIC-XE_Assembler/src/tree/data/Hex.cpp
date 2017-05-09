@@ -25,24 +25,24 @@ std::string Hex::print() const {
 	return buffer + Data::print();
 }
 
-void Hex::parse(Parser &parser, bool allowList, Error *error) {
-	error = NULL;
+void Hex::parse(Parser &parser, bool allowList, Error** error) {
+	*error = NULL;
 	parser.advancePointer('X', error);
-	if (error != NULL)
+	if (*error != NULL)
 		return;
 	parser.advancePointer('\'', error);
-	if (error != NULL)
+	if (*error != NULL)
 		return;
 	std::string temp = parser.readUntil('\'');
 	if (temp.length() % 2) {
 		std::string errMsg = "Invalid length of hex encoding '" + temp + "'!";
-		error = new Error(parser.getLocation()->clone(), errMsg);
+		*error = new Error(parser.getLocation(), errMsg);
 		return;
 	}
 	Conversion::hexToBytes(temp, this->data);
 	this->dataLength = temp.length() / 2;
 	if (allowList) {
-		error = NULL;
+		*error = NULL;
 		Data::parse(parser, allowList, error);
 	}
 }

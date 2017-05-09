@@ -16,10 +16,10 @@ Node::~Node() {
 	// TODO Auto-generated destructor stub
 }
 
-void Node::enter(Prog &program, Error *error) {
+void Node::enter(Prog &program, Error** error) {
 
 }
 
-void Node::leave(Prog &program, Error *error) {
+void Node::leave(Prog &program, Error** error) {
 
 }

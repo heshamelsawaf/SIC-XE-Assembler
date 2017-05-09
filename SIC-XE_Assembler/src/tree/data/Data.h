@@ -18,7 +18,7 @@ public:
 	Data(int opcode);
 	virtual ~Data();
 	virtual std::string print() const;
-	virtual void parse(Parser &parser, bool allowList, Error *error);
+	virtual void parse(Parser &parser, bool allowList, Error** error);
 	bool operator ==(const Data &dta) const;
 	int getSize() const;
 	int getOpCode() const;

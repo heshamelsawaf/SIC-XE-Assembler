@@ -15,11 +15,11 @@
 
 class Command: public Node {
 public:
-	Command(Location *location, std::string label, Mnemonic *mnemonic);
+	Command(Location location, std::string label, Mnemonic *mnemonic);
 	virtual ~Command();
 	virtual std::string print() const;
-	virtual void enter(Prog &program, Error *error);
-	virtual void append(Prog &program, Error *error);
+	virtual void enter(Prog &program, Error** error);
+	virtual void append(Prog &program, Error** error);
 	bool hasLabel() const;
 	std::string getLabel() const;
 	void setComment(std::string comment);
@@ -38,7 +38,7 @@ protected:
 	std::string type;
 	Mnemonic *mnemonic;
 	std::string comment;
-	Location *location;
+	Location& location;
 
 private:
 	std::string label;

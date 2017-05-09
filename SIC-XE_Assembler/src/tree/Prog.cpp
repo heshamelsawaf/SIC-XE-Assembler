@@ -111,6 +111,14 @@ void Prog::append(Command *command) {
 		this->maxLabelLength = command->getLabel().length();
 }
 
-void Prog::enter(Prog &program, Error *error) {
+void Prog::enter(Prog &program, Error** error) {
 	this->switchDefault();
+}
+
+std::vector<Command *> Prog::getCommands() const {
+	return commands;
+}
+
+std::vector<Section *> Prog::getSections() const {
+	return sections;
 }

@@ -37,8 +37,9 @@ int Buffer::getColumn() const {
 	return this->column;
 }
 
-Location *Buffer::getLocation() const {
-	return new Location(this->position, this->row, this->column);
+Location Buffer::getLocation() const {
+	Location loc(this->position, this->row, this->column);
+	return loc;
 }
 
 std::string Buffer::subString(int start, int end) const {
@@ -95,14 +96,14 @@ int Buffer::advancePointer(int count) {
 	return temp;
 }
 
-void Buffer::advancePointer(char character, Error *error) {
+void Buffer::advancePointer(char character, Error** error) {
 	if (this->advancePointerIf(character)) {
-		error = NULL;
+		*error = NULL;
 		return;
 	}
 	std::string err = "Expected ";
 	err.push_back(character);
-	error = new Error(this->getLocation(), err + "!");
+	*error = new Error(this->getLocation(), err + "!");
 }
 
 bool Buffer::advancePointerIf(char character) {

@@ -8,7 +8,7 @@
 #include "InstructionFormat3Abstract.h"
 #include "../Prog.h"
 
-InstructionFormat3Abstract::InstructionFormat3Abstract(Location *location,
+InstructionFormat3Abstract::InstructionFormat3Abstract(Location location,
 		std::string label, Mnemonic *mnemonic, Flags *flags, int value,
 		std::string symbol) :
 		Instruction(location, label, mnemonic) {
@@ -40,7 +40,7 @@ void InstructionFormat3Abstract::setSymbol(std::string symbol) {
 	this->symbol = symbol;
 }
 
-void InstructionFormat3Abstract::resolve(Prog &program, Error *error) {
+void InstructionFormat3Abstract::resolve(Prog &program, Error** error) {
 	// resolve operand: value or symbol
 	if (this->operandIsValue()) {
 		this->resolvedValue = value;
@@ -51,12 +51,12 @@ void InstructionFormat3Abstract::resolve(Prog &program, Error *error) {
 						this->symbol);
 		if (this->resolvedSymbol == NULL) {
 			std::string errMsg = "Undefined symbol '" + this->symbol + ",!";
-			error = new Error(this->getLocation()->clone(), errMsg);
+			*error = new Error(this->getLocation(), errMsg);
 			return;
 		}
-		error = NULL;
+		*error = NULL;
 		this->checkSymbol(program, this->resolvedSymbol, error);
-		if (error != NULL)
+		if (*error != NULL)
 			return;
 		this->resolvedValue = this->resolvedSymbol->getValue();
 	}
@@ -64,11 +64,11 @@ void InstructionFormat3Abstract::resolve(Prog &program, Error *error) {
 	if (this->resolveAddressing(program))
 		return;
 	std::string errMsg = "Cannot address symbol '" + this->symbol + ",!";
-	error = new Error(this->getLocation()->clone(), errMsg);
+	*error = new Error(this->getLocation(), errMsg);
 	return;
 }
 
-Location *InstructionFormat3Abstract::getLocation() const {
+Location& InstructionFormat3Abstract::getLocation() const {
 	return this->location;
 }
 
@@ -81,7 +81,7 @@ std::string InstructionFormat3Abstract::getSymbol() const {
 }
 
 void InstructionFormat3Abstract::checkSymbol(Prog &program, Symbol *symbol,
-		Error *error) const {
+		Error** error) const {
 
 }
 bool InstructionFormat3Abstract::resolveAddressing(Prog &program) {

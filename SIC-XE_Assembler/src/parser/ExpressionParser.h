@@ -15,11 +15,11 @@ class ExpressionParser {
 public:
 	ExpressionParser(Parser *parser);
 	virtual ~ExpressionParser();
-	Expression *parseExpression(Error *error);
+	Expression *parseExpression(Error** error);
 
 private:
 	Parser *parser;
-	Expression *readToken(Error *error);
+	Expression *readToken(Error** error);
 };
 
 #endif /* SRC_PARSER_EXPRESSIONPARSER_H_ */
