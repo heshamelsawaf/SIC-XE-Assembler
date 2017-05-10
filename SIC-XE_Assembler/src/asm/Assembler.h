@@ -23,8 +23,8 @@ public:
 	virtual ~Assembler();
 	Prog *assemble(std::string input);
 	void generateListing(Prog &program, std::ofstream& oBuffer);
-	void generateLog(Prog &program, std::ofstream oBuffer);
-	void generateObj(Prog &program, std::ofstream oBuffer, bool addSpaceInObj);
+	void generateLog(Prog &program, std::ofstream& oBuffer);
+	void generateObj(Prog &program, std::ofstream& oBuffer, bool addSpaceInObj);
 	ErrorController *getErrorController() const;
 
 private:

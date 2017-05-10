@@ -53,3 +53,7 @@ void Literals::flush(Prog &program) {
 	while (lastPoped < storage.size())
 		program.append((storage[lastPoped++]));
 }
+
+int Literals::getStorageSize() const {
+	return storage.size();
+}

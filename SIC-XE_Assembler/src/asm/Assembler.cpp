@@ -263,10 +263,109 @@ void Assembler::generateListing(Prog &program, std::ofstream& oBuffer) {
 		}
 	}
 }
-void Assembler::generateLog(Prog &program, std::ofstream oBuffer) {
-
+void Assembler::generateLog(Prog &program, std::ofstream& oBuffer) {
+	program.switchDefault();
+	for (Section *section : program.getSections()) {
+		section->reset();
+		for (Block *block : section->getBlocks())
+			block->reset();
+	}
+	Error *error = NULL;
+	program.enter(program, &error);
+	if (error != NULL) {
+		this->errorController->add(error);
+		return;
+	}
+	for (Section *section : program.getSections()) {
+		Error *error = NULL;
+		section->enter(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+		oBuffer << "***** Section " << section->print() << " *****\n";
+		char buffer[100];
+		std::sprintf(buffer,
+				"Status: size=%d  blocks=%d  symbols=%d  literals=%d\n",
+				section->getSectionSize(),
+				section->getCurrentBlock().getBlockSize(),
+				section->getSymbols().sortedV().size(),
+				(int) section->getLiterals().getStorageSize());
+		oBuffer << buffer;
+//		// blocks
+		oBuffer << "Blocks\n";
+		oBuffer << "    name        start   size  #ins #dir #sto\n";
+		for (Block *block : section->getBlocks()) {
+			Error *error = NULL;
+			block->enter(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+			std::sprintf(buffer, "    %-10s  %05X  %05X  %4d %4d %4d\n",
+					block->print().c_str(), block->getBlockStartAddress(),
+					block->getBlockSize(), block->getInstructionCounter(),
+					block->getDirectiveCounter(), block->getStorageCounter());
+			oBuffer << buffer;
+			block->leave(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+		}
+//		// symbols
+//		visitSymbols(section.symbols.asSortedList());
+		oBuffer << "Symbols\n";
+		std::string k = "    %-" + std::to_string(program.getMaxLabelLength())
+				+ "s      hex       dec     kind      description\n";
+		std::sprintf(buffer, k.c_str(), "name");
+		oBuffer << buffer;
+		for (Symbol& symbol : section->getSymbols().sortedV()) {
+			Error *error = NULL;
+			symbol.enter(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+			std::string k = "    %-"
+					+ std::to_string(program.getMaxLabelLength())
+					+ "s   %06X  %8d     %-8s  %s\n";
+			std::sprintf(buffer, k.c_str(), symbol.getSymbolName().c_str(),
+					symbol.getValue(), symbol.getValue(),
+					symbol.printType().c_str(),
+					symbol.printExpression().c_str());
+			oBuffer << buffer;
+			symbol.leave(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+		}
+//		// literals
+		oBuffer << "Literals\n";
+		int l = section->getLiterals().getMaxLabelLength();
+		k = "    %-" + std::to_string(l) + "s  definition\n";
+		std::sprintf(buffer, k.c_str(), "label");
+		oBuffer << buffer;
+		for (StorageData& lit : section->getLiterals().getStorage()) {
+			std::string k = "    %-" + std::to_string(l) + "s  %s\n";
+			std::sprintf(buffer, k.c_str(), lit.getLabel().c_str(),
+					lit.print().c_str());
+			oBuffer << buffer;
+		}
+		section->leave(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+	}
+	program.leave(program, &error);
+	if (error != NULL) {
+		this->errorController->add(error);
+		return;
+	}
 }
-void Assembler::generateObj(Prog &program, std::ofstream oBuffer,
+void Assembler::generateObj(Prog &program, std::ofstream& oBuffer,
 		bool addSpaceInObj) {
 
 }
