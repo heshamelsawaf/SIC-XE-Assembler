@@ -43,8 +43,10 @@ std::vector<unsigned char> Conversion::hexToBytes(std::string str,
 		std::string te = str.substr(j, 2);
 		char f = te[0], s = te[1];
 		int v = (16
-				* (std::isalpha(f) ? f - 'a' >= 0 ? f - 'a' : f - 'A':f - '0'))
-				+ (std::isalpha(s) ? s - 'a' >= 0 ? s - 'a' : s - 'A':s - '0');
+				* (std::isalpha(f) ?
+						f - 'a' >= 0 ? (f - 'a') + 10 : (f - 'A') + 10:f - '0'))
+				+ (std::isalpha(s) ?
+						s - 'a' >= 0 ? (s - 'a') + 10 : (s - 'A') + 10:s - '0');
 
 		res[i] = (unsigned char) (v);
 	}

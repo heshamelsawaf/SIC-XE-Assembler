@@ -46,3 +46,6 @@ void RES::burnObjectCode(std::vector<unsigned char>& vec, int location) const {
 		vec[i] = (unsigned char) 0;
 }
 
+bool RES::burnText(std::string& buffer) {
+	return true;
+}

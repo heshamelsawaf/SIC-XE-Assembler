@@ -20,6 +20,7 @@ public:
 	int getCommandSize() const;
 	void resolve(Prog &program, Error** error);
 	void burnObjectCode(std::vector<unsigned char>& vec, int location) const;
+	bool burnText(std::string& buffer);
 
 private:
 	int count;

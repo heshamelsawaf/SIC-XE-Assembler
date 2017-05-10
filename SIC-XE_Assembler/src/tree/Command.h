@@ -33,7 +33,7 @@ public:
 	virtual void burnObjectCode(std::vector<unsigned char>& vec,
 			int location) const;
 	std::vector<unsigned char> burnObjectCode() const;
-	virtual std::string burnText(std::string buffer);
+	virtual bool burnText(std::string& buffer);
 
 protected:
 	std::string type;

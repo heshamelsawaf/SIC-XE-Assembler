@@ -81,12 +81,12 @@ std::vector<unsigned char> Command::burnObjectCode() const {
 	return vec;
 }
 
-std::string Command::burnText(std::string buffer) {
+bool Command::burnText(std::string& buffer) {
 	if (this->getCommandSize() > 0) {
 		std::vector<unsigned char> vec = this->burnObjectCode();
 		buffer += Conversion::bytesToHex(vec);
 	}
-	return buffer;
+	return false;
 }
 
 std::string Command::printOperand() const {

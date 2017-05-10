@@ -47,5 +47,5 @@ void MainAsm::handleSource() {
 	//
 	assembler.generateListing(*program, listingFile);
 	assembler.generateLog(*program, mapFile);
-
+	assembler.generateObj(*program, objectFile, false);
 }

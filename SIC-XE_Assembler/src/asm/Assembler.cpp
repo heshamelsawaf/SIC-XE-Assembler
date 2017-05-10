@@ -314,7 +314,6 @@ void Assembler::generateLog(Prog &program, std::ofstream& oBuffer) {
 			}
 		}
 //		// symbols
-//		visitSymbols(section.symbols.asSortedList());
 		oBuffer << "Symbols\n";
 		std::string k = "    %-" + std::to_string(program.getMaxLabelLength())
 				+ "s      hex       dec     kind      description\n";
@@ -367,5 +366,101 @@ void Assembler::generateLog(Prog &program, std::ofstream& oBuffer) {
 }
 void Assembler::generateObj(Prog &program, std::ofstream& oBuffer,
 		bool addSpaceInObj) {
+	std::string space = addSpaceInObj ? " " : "";
+	program.switchDefault();
+	for (Section *section : program.getSections()) {
+		section->reset();
+		for (Block *block : section->getBlocks())
+			block->reset();
+	}
+	Error *error = NULL;
+	program.enter(program, &error);
+	if (error != NULL) {
+		this->errorController->add(error);
+		return;
+	}
+	for (Section *section : program.getSections()) {
+		Error *error = NULL;
+		section->enter(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+		// header record
+		int start =
+				!(section->getSectionName().compare("")) ?
+						program.getStartAddress() : 0;
+		std::string name =
+				!(section->getSectionName().compare("")) ?
+						program.getName() : section->getSectionName();
+		char buffer[100];
+		std::sprintf(buffer, "H%s%-6s%s%06X%s%06X\n", space.c_str(),
+				name.c_str(), space.c_str(), start, space.c_str(),
+				section->getSectionSize());
+		oBuffer << buffer;
+		// text records
+		int textAddr = start;
+		std::string buff = "";
 
+		for (Block *block : section->getBlocks()) {
+			Error *error = NULL;
+			block->enter(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+			for (Command *command : block->getCommands()) {
+				Error *error = NULL;
+				command->enter(program, &error);
+				if (error != NULL) {
+					this->errorController->add(error);
+					continue;
+				}
+				if (command->getCommandSize() > 0)
+					buff += space;
+				bool flush = command->burnText(buff);
+				if (flush || buff.length() > 54) {
+					if (buff.length()) {
+						std::sprintf(buffer, "T%s%06X%s%02X", space.c_str(),
+								textAddr, space.c_str(), buff.length() / 2);
+						oBuffer << buffer << buff << "\n";
+						buff = "";
+					}
+					textAddr = program.getLocationCounter()
+							+ command->getCommandSize();
+				}
+				command->leave(program, &error);
+				if (error != NULL) {
+					this->errorController->add(error);
+					continue;
+				}
+			}
+			block->leave(program, &error);
+			if (error != NULL) {
+				this->errorController->add(error);
+				continue;
+			}
+		}
+		if (buff.length()) {
+			std::sprintf(buffer, "T%s%06X%s%02X", space.c_str(), textAddr,
+					space.c_str(), buff.length() / 2);
+			oBuffer << buffer << buff << "\n";
+			buff = "";
+		}
+		int first =
+				!(section->getSectionName().compare("")) ?
+						program.getAddressOfFirstInstruction() : start;
+		std::sprintf(buffer, "E%s%06X\n", space.c_str(), first);
+		oBuffer << buffer;
+		section->leave(program, &error);
+		if (error != NULL) {
+			this->errorController->add(error);
+			continue;
+		}
+	}
+	program.leave(program, &error);
+	if (error != NULL) {
+		this->errorController->add(error);
+		return;
+	}
 }
