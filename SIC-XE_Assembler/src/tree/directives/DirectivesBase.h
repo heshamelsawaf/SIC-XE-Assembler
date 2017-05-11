@@ -19,7 +19,7 @@ public:
 	std::string printOperand() const;
 	int getValue() const;
 	void resolve(Prog &program, Error** error);
-	Expression &getExpression() const;
+	Expression* getExpression() const;
 
 protected:
 	Expression *expression;

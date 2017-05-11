@@ -9,13 +9,14 @@
 #define SRC_ASM_ERROR_H_
 
 #include "Location.h"
-#include "string"
+#include <string>
 
 class Error {
 public:
 	Error(Location location, std::string message);
 	Error(std::string message);
 	virtual ~Error();
+	std::string print() const;
 	int Compare(const Error &error) const;
 	bool operator ==(const Error &error) const;
 	bool operator <(const Error &error) const;

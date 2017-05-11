@@ -194,9 +194,13 @@ void Assembler::resolveSymbols(Prog& program) {
 		if (InstructionFormat3Extended *t =
 				dynamic_cast<InstructionFormat3Extended*>(command))
 			t->resolve(program, &error);
-		else if (END *t = dynamic_cast<END*>(command))
-			program.setAddressOfFirstInstruction(
-					t->getExpression().evaluate(program, &error));
+		else if (END *t = dynamic_cast<END*>(command)) {
+			if (t->getExpression() == NULL)
+				program.setAddressOfFirstInstruction(program.getStartAddress());
+			else
+				program.setAddressOfFirstInstruction(
+						t->getExpression()->evaluate(program, &error));
+		}
 		if (error != NULL) {
 			this->errorController->add(error);
 			continue;

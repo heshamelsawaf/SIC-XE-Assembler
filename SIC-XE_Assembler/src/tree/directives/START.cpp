@@ -18,11 +18,6 @@ START::~START() {
 }
 
 void START::append(Prog &program, Error** error) {
-	if (!(this->hasLabel())) {
-		std::string errMsg = "Missing label at START";
-		*error = new Error(this->getLocation(), errMsg);
-		return;
-	}
 	*error = NULL;
 	DirectivesBase::append(program, error);
 }

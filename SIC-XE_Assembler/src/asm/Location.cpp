@@ -28,3 +28,7 @@ int Location::getRow() const {
 int Location::getColumn() const {
 	return this->column;
 }
+
+std::string Location::print() const {
+	return std::to_string(row) + ", " + std::to_string(column);
+}

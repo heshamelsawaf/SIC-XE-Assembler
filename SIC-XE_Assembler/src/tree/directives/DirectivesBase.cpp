@@ -30,6 +30,6 @@ void DirectivesBase::resolve(Prog &program, Error** error) {
 	value = expression == NULL ? -1 : expression->evaluate(program, error);
 }
 
-Expression &DirectivesBase::getExpression() const {
-	return *(this->expression);
+Expression* DirectivesBase::getExpression() const {
+	return this->expression;
 }

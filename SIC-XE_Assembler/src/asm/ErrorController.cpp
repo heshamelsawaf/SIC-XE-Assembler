@@ -28,7 +28,7 @@ int ErrorController::count() const {
 }
 void ErrorController::print() {
 	for (; last < this->count(); last++)
-		Logger::err(errors[last]->getError());
+		Logger::err(errors[last]->print());
 }
 void ErrorController::printByRow(const int row) const {
 	for (int i = 0; i < this->count(); i++)
